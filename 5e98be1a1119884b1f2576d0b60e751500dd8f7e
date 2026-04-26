@@ -1,0 +1,42 @@
+src/bk/public/pricing.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 3-4,8,10-20
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 14,
+          "added_lines": 14,
+          "deleted_lines": 24,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "3-4,8,10-20",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/public/pricing.cljs"
+    }
+  ],
+  "base_commit_sha": "a84fa3293b4438e26f66f2d70d64a8f7900c1201",
+  "branch": "feature/public-website",
+  "commit_sha": "5e98be1a1119884b1f2576d0b60e751500dd8f7e",
+  "commit_time": "2026-04-26T15:32:41+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 14,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 14,
+      "total_deletions": 24
+    }
+  },
+  "repo": "git@github.com:Harsha-Kiran-Boyapati/bk-hall.git",
+  "schema_version": "authorship/3.0.0"
+}
