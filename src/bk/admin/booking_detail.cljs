@@ -24,6 +24,55 @@
           "Balance Due: " (fmt-currency due) "\n\n"
           "Thank you for choosing BK Function Hall!"))))
 
+(defn line-item-row [item on-refresh]
+  (let [editing? (r/atom false)
+        label    (r/atom (:label item))
+        amount   (r/atom (str (:amount item)))
+        saving?  (r/atom false)]
+    (fn [item on-refresh]
+      [:div {:style {:display "flex" :align-items "center" :gap "8px"
+                     :padding "8px 0" :border-bottom "1px solid var(--cream-dark)"}}
+       (if @editing?
+         [:<>
+          [:input.form-input {:value @label :style {:flex "2"}
+                              :on-change #(reset! label (.. % -target -value))}]
+          [:input.form-input {:type "number" :value @amount :style {:flex "1"}
+                              :on-change #(reset! amount (.. % -target -value))}]
+          [:button {:on-click (fn []
+                                (reset! saving? true)
+                                (db/update-line-item (:id item) @label (js/parseFloat @amount)
+                                  (fn [{:keys [ok]}]
+                                    (reset! saving? false)
+                                    (when ok
+                                      (reset! editing? false)
+                                      (on-refresh)))))
+                    :disabled @saving?
+                    :style {:background "var(--gold)" :color "#fff" :border "none"
+                            :padding "6px 12px" :border-radius "6px" :cursor "pointer"
+                            :font-size "13px" :white-space "nowrap"}}
+           "Save"]
+          [:button {:on-click #(reset! editing? false)
+                    :style {:background "none" :border "1px solid var(--cream-dark)"
+                            :padding "6px 10px" :border-radius "6px" :cursor "pointer"
+                            :font-size "13px"}}
+           "Cancel"]]
+         [:<>
+          [:span {:style {:flex "2"}} (:label item)]
+          [:span {:style {:font-weight "600" :flex "1" :text-align "right"}}
+           (fmt-currency (:amount item))]
+          [:button {:on-click #(reset! editing? true)
+                    :style {:background "none" :border "1px solid var(--cream-dark)"
+                            :padding "4px 10px" :border-radius "6px" :cursor "pointer"
+                            :font-size "12px" :color "var(--text-light)"}}
+           "Edit"]
+          [:button {:on-click (fn []
+                                (db/delete-line-item (:id item)
+                                  (fn [{:keys [ok]}] (when ok (on-refresh)))))
+                    :style {:background "none" :border "none" :color "#dc2626"
+                            :font-size "18px" :cursor "pointer" :line-height "1"
+                            :padding "0 4px"}}
+           "×"]])])))
+
 (defn add-line-item-form [booking-id on-added]
   (let [form    (r/atom {:label "" :amount ""})
         saving? (r/atom false)]
@@ -52,6 +101,114 @@
                                    (on-added)
                                    (reset! form {:label "" :amount ""})))))}
         "Add"]])))
+
+(defn payment-row [pmt on-refresh]
+  (let [editing? (r/atom false)
+        amount   (r/atom (str (:amount pmt)))
+        date     (r/atom (:date pmt))
+        note     (r/atom (or (:note pmt) ""))
+        saving?  (r/atom false)]
+    (fn [pmt on-refresh]
+      [:div {:style {:display "flex" :align-items "center" :gap "8px"
+                     :padding "8px 0" :border-bottom "1px solid var(--cream-dark)"}}
+       (if @editing?
+         [:<>
+          [:input.form-input {:type "number" :value @amount :style {:flex "1"}
+                              :on-change #(reset! amount (.. % -target -value))}]
+          [:input.form-input {:type "date" :value @date :style {:flex "1"}
+                              :on-change #(reset! date (.. % -target -value))}]
+          [:input.form-input {:value @note :style {:flex "1"} :placeholder "Note"
+                              :on-change #(reset! note (.. % -target -value))}]
+          [:button {:on-click (fn []
+                                (reset! saving? true)
+                                (db/update-payment (:id pmt)
+                                  {:amount (js/parseFloat @amount) :date @date :note @note}
+                                  (fn [{:keys [ok]}]
+                                    (reset! saving? false)
+                                    (when ok (reset! editing? false) (on-refresh)))))
+                    :disabled @saving?
+                    :style {:background "var(--gold)" :color "#fff" :border "none"
+                            :padding "6px 12px" :border-radius "6px" :cursor "pointer"
+                            :font-size "13px" :white-space "nowrap"}}
+           "Save"]
+          [:button {:on-click #(reset! editing? false)
+                    :style {:background "none" :border "1px solid var(--cream-dark)"
+                            :padding "6px 10px" :border-radius "6px" :cursor "pointer"
+                            :font-size "13px"}}
+           "Cancel"]]
+         [:<>
+          [:span {:style {:flex "2"}}
+           (str (:date pmt) (when (seq (:note pmt)) (str " — " (:note pmt))))]
+          [:span {:style {:font-weight "600" :color "#16a34a" :flex "1" :text-align "right"}}
+           (fmt-currency (:amount pmt))]
+          [:button {:on-click #(reset! editing? true)
+                    :style {:background "none" :border "1px solid var(--cream-dark)"
+                            :padding "4px 10px" :border-radius "6px" :cursor "pointer"
+                            :font-size "12px" :color "var(--text-light)"}}
+           "Edit"]
+          [:button {:on-click #(db/delete-payment (:id pmt)
+                                 (fn [{:keys [ok]}] (when ok (on-refresh))))
+                    :style {:background "none" :border "none" :color "#dc2626"
+                            :font-size "18px" :cursor "pointer" :line-height "1"
+                            :padding "0 4px"}}
+           "×"]])])))
+
+(defn expense-row [exp on-refresh]
+  (let [editing?  (r/atom false)
+        label     (r/atom (:label exp))
+        amount    (r/atom (str (:amount exp)))
+        date      (r/atom (:date exp))
+        category  (r/atom (:category exp))
+        saving?   (r/atom false)]
+    (fn [exp on-refresh]
+      [:div {:style {:display "flex" :align-items "center" :gap "8px"
+                     :padding "8px 0" :border-bottom "1px solid var(--cream-dark)"}}
+       (if @editing?
+         [:<>
+          [:input.form-input {:value @label :style {:flex "2"}
+                              :on-change #(reset! label (.. % -target -value))}]
+          [:input.form-input {:type "number" :value @amount :style {:flex "1"}
+                              :on-change #(reset! amount (.. % -target -value))}]
+          [:input.form-input {:type "date" :value @date :style {:flex "1"}
+                              :on-change #(reset! date (.. % -target -value))}]
+          [:select.form-input {:value @category :style {:flex "1"}
+                               :on-change #(reset! category (.. % -target -value))}
+           (for [c ["electricity" "labour" "catering" "decoration" "other"]]
+             ^{:key c} [:option {:value c} c])]
+          [:button {:on-click (fn []
+                                (reset! saving? true)
+                                (db/update-booking-expense (:id exp)
+                                  {:label @label :amount (js/parseFloat @amount)
+                                   :date @date :category @category}
+                                  (fn [{:keys [ok]}]
+                                    (reset! saving? false)
+                                    (when ok (reset! editing? false) (on-refresh)))))
+                    :disabled @saving?
+                    :style {:background "var(--gold)" :color "#fff" :border "none"
+                            :padding "6px 12px" :border-radius "6px" :cursor "pointer"
+                            :font-size "13px" :white-space "nowrap"}}
+           "Save"]
+          [:button {:on-click #(reset! editing? false)
+                    :style {:background "none" :border "1px solid var(--cream-dark)"
+                            :padding "6px 10px" :border-radius "6px" :cursor "pointer"
+                            :font-size "13px"}}
+           "Cancel"]]
+         [:<>
+          [:span {:style {:flex "2"}}
+           (str (:label exp) " — " (:date exp) " [" (:category exp) "]")]
+          [:span {:style {:font-weight "600" :color "#dc2626" :flex "1" :text-align "right"}}
+           (fmt-currency (:amount exp))]
+          [:button {:on-click #(reset! editing? true)
+                    :style {:background "none" :border "1px solid var(--cream-dark)"
+                            :padding "4px 10px" :border-radius "6px" :cursor "pointer"
+                            :font-size "12px" :color "var(--text-light)"}}
+           "Edit"]
+          [:button {:on-click #(db/delete-booking-expense (:id exp)
+                                 (fn [{:keys [ok]}] (when ok (on-refresh))))
+                    :style {:background "none" :border "none" :color "#dc2626"
+                            :font-size "18px" :cursor "pointer" :line-height "1"
+                            :padding "0 4px"}}
+           "×"]])])))
 
 (defn add-payment-form [booking-id on-added]
   (let [form    (r/atom {:amount "" :date "" :note ""})
@@ -191,10 +348,7 @@
               [card "Charges (Line Items)"
                (for [item @line-items]
                  ^{:key (:id item)}
-                 [:div {:style {:display "flex" :justify-content "space-between"
-                                :padding "8px 0" :border-bottom "1px solid var(--cream-dark)"}}
-                  [:span (:label item)]
-                  [:span {:style {:font-weight "600"}} (fmt-currency (:amount item))]])
+                 [line-item-row item load-financials])
                [:div {:style {:display "flex" :justify-content "space-between"
                               :padding "12px 0" :font-weight "700" :font-size "1.05rem"}}
                 [:span "Total"] [:span (fmt-currency total)]]
@@ -204,10 +358,7 @@
               [card "Payments"
                (for [pmt @payments]
                  ^{:key (:id pmt)}
-                 [:div {:style {:display "flex" :justify-content "space-between"
-                                :padding "8px 0" :border-bottom "1px solid var(--cream-dark)"}}
-                  [:span (str (:date pmt) (when (seq (:note pmt)) (str " — " (:note pmt))))]
-                  [:span {:style {:font-weight "600" :color "#16a34a"}} (fmt-currency (:amount pmt))]])
+                 [payment-row pmt load-financials])
                [:div {:style {:display "flex" :justify-content "space-between" :padding "10px 0"
                               :border-top "2px solid var(--cream-dark)"}}
                 [:span "Paid"] [:span {:style {:color "#16a34a" :font-weight "700"}} (fmt-currency paid)]]
@@ -229,10 +380,7 @@
               [card "Event Expenses (What you spent)"
                (for [exp @expenses]
                  ^{:key (:id exp)}
-                 [:div {:style {:display "flex" :justify-content "space-between"
-                                :padding "8px 0" :border-bottom "1px solid var(--cream-dark)"}}
-                  [:span (str (:label exp) " — " (:date exp) " [" (:category exp) "]")]
-                  [:span {:style {:font-weight "600" :color "#dc2626"}} (fmt-currency (:amount exp))]])
+                 [expense-row exp load-financials])
                [add-expense-form booking-id load-financials]]])
 
            ])))))

@@ -126,6 +126,20 @@
       (.then #(callback {:ok true}))
       (.catch #(callback {:ok false}))))
 
+(defn update-line-item [id label amount callback]
+  (-> (.from client "booking_line_items")
+      (.update (clj->js {:label label :amount amount}))
+      (.eq "id" id)
+      (.then #(callback {:ok true}))
+      (.catch #(callback {:ok false}))))
+
+(defn delete-line-item [id callback]
+  (-> (.from client "booking_line_items")
+      (.delete)
+      (.eq "id" id)
+      (.then #(callback {:ok true}))
+      (.catch #(callback {:ok false}))))
+
 ;; ── Payments ─────────────────────────────────────────────────────────────────
 
 (defn fetch-payments [booking-id callback]
@@ -142,6 +156,20 @@
       (.then #(callback {:ok true}))
       (.catch #(callback {:ok false}))))
 
+(defn update-payment [id fields callback]
+  (-> (.from client "booking_payments")
+      (.update (clj->js fields))
+      (.eq "id" id)
+      (.then #(callback {:ok true}))
+      (.catch #(callback {:ok false}))))
+
+(defn delete-payment [id callback]
+  (-> (.from client "booking_payments")
+      (.delete)
+      (.eq "id" id)
+      (.then #(callback {:ok true}))
+      (.catch #(callback {:ok false}))))
+
 ;; ── Booking expenses ─────────────────────────────────────────────────────────
 
 (defn fetch-booking-expenses [booking-id callback]
@@ -155,6 +183,20 @@
 (defn add-booking-expense [expense callback]
   (-> (.from client "booking_expenses")
       (.insert (clj->js expense))
+      (.then #(callback {:ok true}))
+      (.catch #(callback {:ok false}))))
+
+(defn update-booking-expense [id fields callback]
+  (-> (.from client "booking_expenses")
+      (.update (clj->js fields))
+      (.eq "id" id)
+      (.then #(callback {:ok true}))
+      (.catch #(callback {:ok false}))))
+
+(defn delete-booking-expense [id callback]
+  (-> (.from client "booking_expenses")
+      (.delete)
+      (.eq "id" id)
       (.then #(callback {:ok true}))
       (.catch #(callback {:ok false}))))
 
