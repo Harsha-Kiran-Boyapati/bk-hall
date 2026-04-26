@@ -1,4 +1,6 @@
-(ns bk.public.page)
+(ns bk.public.page
+  (:require [bk.public.hero :as hero]))
 
 (defn root []
-  [:div "BK Function Hall — coming soon"])
+  [:div
+   [hero/section]])
