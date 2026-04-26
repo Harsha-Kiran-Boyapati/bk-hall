@@ -1,0 +1,41 @@
+.gitignore
+  b802fdfa-2943-4d95-9317-4c556179c098 1-4
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 4,
+          "added_lines": 4,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-4",
+          "overridden_lines": 0
+        }
+      ],
+      "file": ".gitignore"
+    }
+  ],
+  "base_commit_sha": "28fd7383f11fe40fb23873563881feddf5a6a246",
+  "branch": "main",
+  "commit_sha": "8f3eaacd0ef833a50a091454ae655d4f23c2f4d0",
+  "commit_time": "2026-04-26T13:14:47+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 4,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 4,
+      "total_deletions": 0
+    }
+  },
+  "schema_version": "authorship/3.0.0"
+}
