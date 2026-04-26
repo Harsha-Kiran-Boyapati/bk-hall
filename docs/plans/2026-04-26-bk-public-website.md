@@ -1105,8 +1105,9 @@ git commit -m "feat: add Find Us section with embedded map"
             [bk.public.amenities :as amenities]
             [bk.public.pricing :as pricing]
             [bk.public.calendar :as calendar]
-            [bk.public.testimonials :as testimonials]
+            [bk.public.reviews :as reviews]
             [bk.public.faq :as faq]
+            [bk.public.location :as location]
             [bk.public.inquiry :as inquiry]))
 
 (defn root []
@@ -1116,8 +1117,9 @@ git commit -m "feat: add Find Us section with embedded map"
    [amenities/section]
    [pricing/section]
    [calendar/section]
-   [testimonials/section]
+   [reviews/section]
    [faq/section]
+   [location/section]
    [inquiry/section]])
 ```
 
@@ -1303,21 +1305,19 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: cljs/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install npm deps
-        working-directory: cljs
         run: npm ci
 
       - name: Compile ClojureScript
-        working-directory: cljs
         run: npx shadow-cljs release app
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: cljs/public
+          publish_dir: public
 ```
 
 - [ ] **Step 3: Enable GitHub Pages in repo settings**
