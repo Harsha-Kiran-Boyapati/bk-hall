@@ -1,0 +1,56 @@
+public/manifest.json
+  b802fdfa-2943-4d95-9317-4c556179c098 1-21
+public/sw.js
+  b802fdfa-2943-4d95-9317-4c556179c098 1-12
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 21,
+          "added_lines": 21,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-21",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "public/manifest.json"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 12,
+          "added_lines": 12,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-12",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "public/sw.js"
+    }
+  ],
+  "base_commit_sha": "489fbc120a81b89a117c419c6d7debefc4f3ecce",
+  "branch": "feature/public-website",
+  "commit_sha": "770bf0ca650a6233df785c8d450a006c729ea76f",
+  "commit_time": "2026-04-26T14:20:31+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 33,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 33,
+      "total_deletions": 0
+    }
+  },
+  "schema_version": "authorship/3.0.0"
+}
