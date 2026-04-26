@@ -1,0 +1,74 @@
+src/bk/public/location.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 1-29
+src/bk/public/page.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 8-9,19-20
+  human 18
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 29,
+          "added_lines": 29,
+          "deleted_lines": 1,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-29",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/public/location.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 4,
+          "added_lines": 4,
+          "deleted_lines": 1,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "8-9,19-20",
+          "overridden_lines": 0
+        },
+        {
+          "accepted_lines": 0,
+          "added_lines": 0,
+          "deleted_lines": 1,
+          "hash": "human",
+          "lines": "18",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/public/page.cljs"
+    }
+  ],
+  "base_commit_sha": "e949d1cb9e9ec11d83d94fe4fa5f65bda210aadb",
+  "branch": "feature/public-website",
+  "commit_sha": "815125de6e505c01e913cc8cf445b0f4fe437681",
+  "commit_time": "2026-04-26T14:16:36+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 33,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 33,
+      "total_deletions": 2
+    },
+    "human": {
+      "accepted_lines": 0,
+      "agent_id": null,
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 0,
+      "total_deletions": 1
+    }
+  },
+  "schema_version": "authorship/3.0.0"
+}
