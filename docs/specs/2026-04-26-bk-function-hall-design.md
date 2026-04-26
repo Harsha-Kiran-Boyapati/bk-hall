@@ -117,11 +117,11 @@ Accessible at `/admin`. Requires login. Built as a separate view in the same Clo
   - Add-ons ordered (decoration extent, catering, others)
   - Special requirements / notes
 - Booking detail — financial section (owner only):
-  - Line items: venue hire fee, decoration amount, catering amount, other add-ons with custom labels and amounts
+  - Line items (charged to customer): venue hire fee, decoration, catering, helpers (e.g. "Helpers — 8 workers × ₹500"), electricity charges, other add-ons with custom labels and amounts
   - Discount applied (if any), final agreed total
   - Advance paid (amount + date)
   - Balance due + expected payment date
-  - Per-event expenses: staff wages, vendor payments, materials (each with label, amount, date)
+  - Per-event expenses (owner's actual costs): what owner paid for workers, vendors, materials (each with label, amount, date, category)
 
 **WhatsApp Confirmation (owner only)**
 - Button on booking detail: "Send Confirmation via WhatsApp"
@@ -134,7 +134,7 @@ Accessible at `/admin`. Requires login. Built as a separate view in the same Clo
 
 **Expenses — Overhead (owner only)**
 - Monthly recurring costs not tied to a specific event
-- Fields: label (free-text description e.g. "Electricity bill - April"), amount, month, category (electricity / maintenance / cleaning / other)
+- Fields: label (free-text description e.g. "Electricity bill - April"), amount, month, category (electricity / maintenance / cleaning / labour / other)
 - Listed separately from per-event expenses
 
 **Monthly P&L (owner only)**
@@ -155,7 +155,7 @@ inquiries          — id, name, phone, event_date, event_type, guest_count, add
 bookings           — id, customer_name, phone, event_date, event_type, guest_count, addons, notes, status
 booking_financials — id, booking_id, venue_fee, discount, total_agreed, advance_paid, advance_date, balance_due
 booking_line_items — id, booking_id, label, amount  (revenue side: agreed price breakdown shown to customer)
-booking_expenses   — id, booking_id, label, amount, date, category  (cost side: what owner actually spent on the event)
+booking_expenses   — id, booking_id, label, amount, date, category  (cost side: what owner actually spent on the event — categories: electricity/labour/catering/decoration/other)
 overhead_expenses  — id, label, amount, month, year, category
 ```
 
