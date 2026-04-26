@@ -1,0 +1,56 @@
+shadow-cljs.edn
+  b802fdfa-2943-4d95-9317-4c556179c098 10-11
+.github/workflows/deploy.yml
+  b802fdfa-2943-4d95-9317-4c556179c098 1-39
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 2,
+          "added_lines": 2,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "10-11",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "shadow-cljs.edn"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 39,
+          "added_lines": 39,
+          "deleted_lines": 1,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-39",
+          "overridden_lines": 0
+        }
+      ],
+      "file": ".github/workflows/deploy.yml"
+    }
+  ],
+  "base_commit_sha": "4ded487ffd83b9434bb459415f9eb683debf28fb",
+  "branch": "feature/public-website",
+  "commit_sha": "b8877c27579e1aaa97535a988e3507dc54abe332",
+  "commit_time": "2026-04-26T14:21:47+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 41,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 41,
+      "total_deletions": 1
+    }
+  },
+  "schema_version": "authorship/3.0.0"
+}
