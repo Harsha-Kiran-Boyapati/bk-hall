@@ -16,40 +16,42 @@
    {:screen :pnl       :label "P&L" :owner-only? true}])
 
 (defn nav []
-  [:nav {:style {:background "var(--dark)" :color "#fff" :padding "0 24px"
-                 :display "flex" :align-items "center" :gap "4px" :height "56px"}}
-   [:span {:style {:font-weight "700" :margin-right "20px" :color "var(--gold-light)"
-                   :white-space "nowrap"}}
-    "BK Admin"]
-   (for [{:keys [screen label owner-only?]} nav-items]
-     (when (or (not owner-only?) (= @state/role "owner"))
-       ^{:key screen}
-       [:button {:on-click #(reset! state/screen screen)
-                 :style {:background (if (= @state/screen screen)
-                                       "rgba(255,255,255,0.15)" "none")
-                         :border "none" :color "#fff" :padding "8px 14px"
-                         :border-radius "6px" :cursor "pointer"
-                         :font-size "14px" :font-weight "600"}}
-        label]))
-   [:div {:style {:margin-left "auto"}}
-    [:button {:on-click #(db/sign-out
-                           (fn [_]
-                             (reset! state/session nil)
-                             (reset! state/role nil)
-                             (reset! state/screen :login)))
-              :style {:background "none" :border "1px solid rgba(255,255,255,0.3)"
-                      :color "rgba(255,255,255,0.7)" :padding "6px 14px"
-                      :border-radius "6px" :cursor "pointer" :font-size "13px"}}
-     "Sign Out"]]])
+  (let [role    @state/role
+        current @state/screen]
+    [:nav {:style {:background "var(--dark)" :color "#fff" :padding "0 24px"
+                   :display "flex" :align-items "center" :gap "4px" :height "56px"}}
+     [:span {:style {:font-weight "700" :margin-right "20px" :color "var(--gold-light)"
+                     :white-space "nowrap"}}
+      "BK Admin"]
+     (for [{:keys [screen label owner-only?]} nav-items]
+       (when (or (not owner-only?) (= role "owner"))
+         ^{:key screen}
+         [:button {:on-click #(reset! state/screen screen)
+                   :style {:background (if (= current screen)
+                                         "rgba(255,255,255,0.15)" "none")
+                           :border "none" :color "#fff" :padding "8px 14px"
+                           :border-radius "6px" :cursor "pointer"
+                           :font-size "14px" :font-weight "600"}}
+          label]))
+     [:div {:style {:margin-left "auto"}}
+      [:button {:on-click #(db/sign-out
+                             (fn [_]
+                               (reset! state/session nil)
+                               (reset! state/role nil)
+                               (reset! state/screen :login)))
+                :style {:background "none" :border "1px solid rgba(255,255,255,0.3)"
+                        :color "rgba(255,255,255,0.7)" :padding "6px 14px"
+                        :border-radius "6px" :cursor "pointer" :font-size "13px"}}
+       "Sign Out"]]]))
 
 (defn current-screen []
   (case @state/screen
-    :inquiries     [inquiries/page]
-    :bookings      [bookings/page]
+    :inquiries      [inquiries/page]
+    :bookings       [bookings/page]
     :booking-detail [booking-detail/page]
-    :new-booking   [booking-form/page]
-    :overhead      [overhead/page]
-    :pnl           (if (= @state/role "owner") [pnl/page] [bookings/page])
+    :new-booking    [booking-form/page]
+    :overhead       [overhead/page]
+    :pnl            (if (= @state/role "owner") [pnl/page] [bookings/page])
     [inquiries/page]))
 
 (defn shell []

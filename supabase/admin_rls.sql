@@ -53,3 +53,16 @@ create policy "owner all overhead_expenses" on overhead_expenses
   for all to authenticated
   using (current_user_role() = 'owner')
   with check (current_user_role() = 'owner');
+
+-- ── Grants ───────────────────────────────────────────────────────────────────
+-- RLS policies restrict what rows are visible, but grants control whether
+-- the authenticated role can touch the table at all. Both are required.
+
+grant usage on schema public to authenticated;
+grant select on profiles to authenticated;
+grant select, update on inquiries to authenticated;
+grant select, insert, update on bookings to authenticated;
+grant all on booking_line_items to authenticated;
+grant all on booking_payments to authenticated;
+grant all on booking_expenses to authenticated;
+grant all on overhead_expenses to authenticated;

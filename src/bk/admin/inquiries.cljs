@@ -4,6 +4,78 @@
             [bk.admin.state :as state]))
 
 (def status-options ["new" "called back" "converted" "not interested"])
+(def event-types ["wedding" "reception" "birthday" "other"])
+(def addon-options ["Decoration" "Catering" "Stage Setup" "Photography" "DJ / Music"])
+
+(defn add-inquiry-form [on-added]
+  (let [form    (r/atom {:name "" :phone "" :event_date "" :event_type "wedding"
+                         :guest_count "" :addons [] :message ""})
+        saving? (r/atom false)
+        error   (r/atom nil)]
+    (fn []
+      [:div {:style {:background "var(--cream)" :border-radius "var(--radius)" :padding "24px"
+                     :margin-bottom "24px" :border "1.5px solid var(--cream-dark)"}}
+       [:h3 {:style {:font-weight "700" :margin-bottom "16px"}} "New Inquiry"]
+       [:div {:style {:display "grid" :grid-template-columns "1fr 1fr" :gap "12px"}}
+        [:div.form-group
+         [:label.form-label "Name *"]
+         [:input.form-input {:value (:name @form)
+                             :on-change #(swap! form assoc :name (.. % -target -value))}]]
+        [:div.form-group
+         [:label.form-label "Phone *"]
+         [:input.form-input {:value (:phone @form)
+                             :on-change #(swap! form assoc :phone (.. % -target -value))}]]
+        [:div.form-group
+         [:label.form-label "Event Date *"]
+         [:input.form-input {:type "date" :value (:event_date @form)
+                             :on-change #(swap! form assoc :event_date (.. % -target -value))}]]
+        [:div.form-group
+         [:label.form-label "Event Type"]
+         [:select.form-input {:value (:event_type @form)
+                              :on-change #(swap! form assoc :event_type (.. % -target -value))}
+          (for [t event-types] ^{:key t} [:option {:value t} t])]]
+        [:div.form-group
+         [:label.form-label "Guest Count"]
+         [:input.form-input {:type "number" :value (:guest_count @form)
+                             :on-change #(swap! form assoc :guest_count (.. % -target -value))}]]]
+       [:div.form-group
+        [:label.form-label "Add-ons"]
+        [:div {:style {:display "flex" :flex-wrap "wrap" :gap "10px" :margin-top "8px"}}
+         (for [addon addon-options]
+           ^{:key addon}
+           (let [selected? (contains? (set (:addons @form)) addon)]
+             [:label {:style {:display "flex" :align-items "center" :gap "6px"
+                              :cursor "pointer" :font-size "14px"}}
+              [:input {:type "checkbox" :checked selected?
+                       :on-change #(swap! form update :addons
+                                          (fn [a]
+                                            (if selected?
+                                              (filterv (fn [x] (not= x addon)) a)
+                                              (conj a addon))))}]
+              addon]))]]
+       [:div.form-group
+        [:label.form-label "Message"]
+        [:textarea.form-input {:rows 2 :value (:message @form)
+                               :on-change #(swap! form assoc :message (.. % -target -value))}]]
+       (when @error [:p {:style {:color "#dc2626" :margin-bottom "8px"}} @error])
+       [:div {:style {:display "flex" :gap "12px"}}
+        [:button {:class "btn-primary" :style {:padding "10px 24px"}
+                  :disabled @saving?
+                  :on-click (fn []
+                              (reset! saving? true)
+                              (reset! error nil)
+                              (db/submit-inquiry
+                                (-> @form
+                                    (update :guest_count #(when (seq %) (js/parseInt %))))
+                                (fn [{:keys [ok]}]
+                                  (reset! saving? false)
+                                  (if ok
+                                    (do (on-added)
+                                        (reset! form {:name "" :phone "" :event_date ""
+                                                      :event_type "wedding" :guest_count ""
+                                                      :addons [] :message ""}))
+                                    (reset! error "Failed to save. Please try again.")))))}
+         (if @saving? "Saving…" "Save Inquiry")]]])))
 
 (defn inquiry-row [inq on-status-change]
   (let [{:keys [id name phone event_date event_type guest_count addons message status]} inq
@@ -40,14 +112,28 @@
            "Create Booking"])])]))
 
 (defn page []
-  (let [inquiries (r/atom [])
-        loading? (r/atom true)]
-    (db/fetch-inquiries (fn [data]
-                          (reset! inquiries data)
-                          (reset! loading? false)))
+  (let [inquiries  (r/atom [])
+        loading?   (r/atom true)
+        show-form? (r/atom false)
+        load       (fn []
+                     (reset! loading? true)
+                     (db/fetch-inquiries (fn [data]
+                                           (reset! inquiries data)
+                                           (reset! loading? false))))]
+    (load)
     (fn []
       [:div
-       [:h2 {:style {:font-size "1.4rem" :font-weight "700" :margin-bottom "24px"}} "Inquiries"]
+       [:div {:style {:display "flex" :justify-content "space-between" :align-items "center"
+                      :margin-bottom "24px"}}
+        [:h2 {:style {:font-size "1.4rem" :font-weight "700"}} "Inquiries"]
+        [:button {:on-click #(swap! show-form? not)
+                  :class "btn-primary"
+                  :style {:padding "10px 20px" :font-size "14px"}}
+         (if @show-form? "Cancel" "+ New Inquiry")]]
+       (when @show-form?
+         [add-inquiry-form (fn []
+                             (reset! show-form? false)
+                             (load))])
        (if @loading?
          [:p "Loading…"]
          [:div {:style {:background "#fff" :border-radius "var(--radius)" :overflow "auto"
