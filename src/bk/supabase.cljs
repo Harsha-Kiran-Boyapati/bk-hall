@@ -49,11 +49,16 @@
 ;; ── Profile ─────────────────────────────────────────────────────────────────
 
 (defn fetch-role [callback]
-  (-> (.from client "profiles")
-      (.select "role")
-      (.eq "user_id" (.. client -auth -currentUser -id))
-      (.single)
-      (.then #(callback (:role (js->clj (.-data %) :keywordize-keys true))))
+  (-> (.-auth client)
+      (.getUser)
+      (.then (fn [result]
+               (let [user-id (.. result -data -user -id)]
+                 (-> (.from client "profiles")
+                     (.select "role")
+                     (.eq "user_id" user-id)
+                     (.single)
+                     (.then #(callback (:role (js->clj (.-data %) :keywordize-keys true))))
+                     (.catch #(callback nil))))))
       (.catch #(callback nil))))
 
 ;; ── Inquiries ────────────────────────────────────────────────────────────────
