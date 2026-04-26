@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build the public-facing single-page website for BK Function Hall — hero, gallery, amenities, pricing, availability calendar, testimonials, FAQ, inquiry form — deployed to GitHub Pages via GitHub Actions.
+**Goal:** Build the public-facing single-page website for BK Function Hall — hero, gallery, amenities, pricing, availability calendar, Google Reviews link, FAQ, Find Us map, and inquiry form — deployed to GitHub Pages via GitHub Actions.
 
-**Architecture:** ClojureScript + Reagent SPA served as static files from GitHub Pages. All dynamic data (gallery photos, testimonials, FAQ, booked dates, inquiry submission) reads/writes directly to Supabase from the browser. Each page section is an isolated Reagent component. Supabase client config loaded from environment variables injected at build time.
+**Architecture:** ClojureScript + Reagent SPA served as static files from GitHub Pages. Only two things talk to Supabase: reading booked dates (for the calendar) and submitting inquiries. Everything else — gallery, amenities, pricing, FAQ — is hardcoded in ClojureScript. Each page section is an isolated Reagent component.
 
 **Tech Stack:** ClojureScript, Reagent, shadow-cljs, Supabase JS client (`@supabase/supabase-js`), GitHub Actions, GitHub Pages
 
@@ -16,21 +16,27 @@
 src/
   bk/
     core.cljs          — app entry point, mounts root component
-    supabase.cljs      — Supabase client init, query fns (fetch-gallery, fetch-testimonials, fetch-faq, fetch-booked-dates, submit-inquiry)
+    supabase.cljs      — Supabase client init, fetch-booked-dates, submit-inquiry only
     public/
       page.cljs        — root public page component, composes all sections
       hero.cljs        — hero section component
-      gallery.cljs     — photo grid component
-      amenities.cljs   — amenities icon grid component
-      pricing.cljs     — pricing section component
-      calendar.cljs    — availability calendar component
-      testimonials.cljs — testimonials section component
-      faq.cljs         — FAQ accordion component
+      gallery.cljs     — photo grid (static, reads from public/images/gallery/)
+      amenities.cljs   — amenities icon grid (hardcoded)
+      pricing.cljs     — pricing section (hardcoded)
+      calendar.cljs    — availability calendar (reads booked dates from Supabase)
+      reviews.cljs     — Google Reviews link section
+      faq.cljs         — FAQ accordion (hardcoded)
+      location.cljs    — Find Us section with embedded map + directions link
       inquiry.cljs     — inquiry form component + submission logic
 public/
   index.html           — entry point, <div id="app">, loads compiled JS
   manifest.json        — PWA manifest
   sw.js                — service worker for asset caching
+  images/
+    gallery/           — hall photos (jpg/png), committed to repo
+    hero.jpg           — hero background photo
+    icon-192.png       — PWA icon
+    icon-512.png       — PWA icon
   css/
     style.css          — global styles, CSS variables, section layout
     components.css     — reusable component styles (cards, buttons, inputs)
@@ -165,29 +171,6 @@ Go to https://supabase.com, create a new project called `bk-function-hall`. Note
 - [ ] **Step 2: Run schema SQL in Supabase SQL editor**
 
 ```sql
--- Public read tables
-create table gallery_photos (
-  id uuid primary key default gen_random_uuid(),
-  url text not null,
-  caption text,
-  "order" int default 0,
-  created_at timestamptz default now()
-);
-
-create table testimonials (
-  id uuid primary key default gen_random_uuid(),
-  quote text not null,
-  event_type text,
-  created_at timestamptz default now()
-);
-
-create table faq (
-  id uuid primary key default gen_random_uuid(),
-  question text not null,
-  answer text not null,
-  "order" int default 0
-);
-
 create table bookings (
   id uuid primary key default gen_random_uuid(),
   customer_name text not null,
@@ -214,17 +197,12 @@ create table inquiries (
   created_at timestamptz default now()
 );
 
--- RLS: public can read gallery, testimonials, faq, booked dates
-alter table gallery_photos enable row level security;
-alter table testimonials enable row level security;
-alter table faq enable row level security;
 alter table bookings enable row level security;
 alter table inquiries enable row level security;
 
-create policy "public read gallery" on gallery_photos for select using (true);
-create policy "public read testimonials" on testimonials for select using (true);
-create policy "public read faq" on faq for select using (true);
+-- Public can only read event_date of confirmed bookings (for calendar)
 create policy "public read booked dates" on bookings for select using (status = 'confirmed');
+-- Public can submit inquiries
 create policy "public insert inquiries" on inquiries for insert with check (true);
 ```
 
@@ -238,27 +216,6 @@ create policy "public insert inquiries" on inquiries for insert with check (true
 (def supabase-key "YOUR_ANON_PUBLIC_KEY")
 
 (defonce client (createClient supabase-url supabase-key))
-
-(defn fetch-gallery [callback]
-  (-> (.from client "gallery_photos")
-      (.select "*")
-      (.order "order")
-      (.then #(callback (js->clj (.-data %) :keywordize-keys true)))
-      (.catch #(js/console.error "fetch-gallery error" %))))
-
-(defn fetch-testimonials [callback]
-  (-> (.from client "testimonials")
-      (.select "*")
-      (.order "created_at" #js {:ascending false})
-      (.then #(callback (js->clj (.-data %) :keywordize-keys true)))
-      (.catch #(js/console.error "fetch-testimonials error" %))))
-
-(defn fetch-faq [callback]
-  (-> (.from client "faq")
-      (.select "*")
-      (.order "order")
-      (.then #(callback (js->clj (.-data %) :keywordize-keys true)))
-      (.catch #(js/console.error "fetch-faq error" %))))
 
 (defn fetch-booked-dates [callback]
   (-> (.from client "bookings")
@@ -502,37 +459,48 @@ git commit -m "feat: add hero section"
 - Create: `src/bk/public/gallery.cljs`
 - Modify: `src/bk/public/page.cljs`
 
-- [ ] **Step 1: Create `src/bk/public/gallery.cljs`**
+Photos live in `public/images/gallery/`. Add any jpg/png files there and list them in the component. To add new photos later: drop files in the folder, update the list, git push.
 
-```clojure
-(ns bk.public.gallery
-  (:require [reagent.core :as r]
-            [bk.supabase :as db]))
+- [ ] **Step 1: Add placeholder gallery images**
 
-(defn section []
-  (let [photos (r/atom [])]
-    (db/fetch-gallery #(reset! photos %))
-    (fn []
-      [:section#gallery {:style {:background "#fff"}}
-       [:div.container
-        [:h2.section-title "Our Venue"]
-        [:p.section-subtitle "A glimpse of BK Function Hall"]
-        (if (empty? @photos)
-          [:p {:style {:text-align "center" :color "var(--text-light)"}} "Gallery coming soon"]
-          [:div {:style {:display "grid"
-                         :grid-template-columns "repeat(auto-fill, minmax(280px, 1fr))"
-                         :gap "16px"}}
-           (for [photo @photos]
-             ^{:key (:id photo)}
-             [:div {:style {:border-radius "var(--radius)"
-                            :overflow "hidden"
-                            :aspect-ratio "4/3"}}
-              [:img {:src (:url photo)
-                     :alt (or (:caption photo) "BK Function Hall")
-                     :style {:width "100%" :height "100%" :object-fit "cover"}}]])])]])))
+```bash
+mkdir -p public/images/gallery
+# Place hall photos here as: hall-1.jpg, hall-2.jpg, hall-3.jpg etc.
+# For now create the directory — owner provides real photos
 ```
 
-- [ ] **Step 2: Update `src/bk/public/page.cljs`**
+- [ ] **Step 2: Create `src/bk/public/gallery.cljs`**
+
+```clojure
+(ns bk.public.gallery)
+
+(def photos
+  [{:src "/images/gallery/hall-1.jpg" :alt "BK Function Hall main hall"}
+   {:src "/images/gallery/hall-2.jpg" :alt "BK Function Hall decorated for wedding"}
+   {:src "/images/gallery/hall-3.jpg" :alt "BK Function Hall entrance"}
+   {:src "/images/gallery/hall-4.jpg" :alt "BK Function Hall stage area"}
+   {:src "/images/gallery/hall-5.jpg" :alt "BK Function Hall dining setup"}
+   {:src "/images/gallery/hall-6.jpg" :alt "BK Function Hall parking"}])
+
+(defn section []
+  [:section#gallery {:style {:background "#fff"}}
+   [:div.container
+    [:h2.section-title "Our Venue"]
+    [:p.section-subtitle "A glimpse of BK Function Hall"]
+    [:div {:style {:display "grid"
+                   :grid-template-columns "repeat(auto-fill, minmax(280px, 1fr))"
+                   :gap "16px"}}
+     (for [{:keys [src alt]} photos]
+       ^{:key src}
+       [:div {:style {:border-radius "var(--radius)"
+                      :overflow "hidden"
+                      :aspect-ratio "4/3"
+                      :background "var(--cream-dark)"}}
+        [:img {:src src :alt alt
+               :style {:width "100%" :height "100%" :object-fit "cover"}}]])]]])
+```
+
+- [ ] **Step 3: Update `src/bk/public/page.cljs`**
 
 ```clojure
 (ns bk.public.page
@@ -545,15 +513,15 @@ git commit -m "feat: add hero section"
    [gallery/section]])
 ```
 
-- [ ] **Step 3: Verify in browser**
+- [ ] **Step 4: Verify in browser**
 
-Open http://localhost:3000 — gallery section should render below hero. Shows "Gallery coming soon" if Supabase has no photos yet (expected at this stage).
+Open http://localhost:3000 — gallery grid renders below hero. Photos show placeholder background until real images are added.
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 5: Commit**
 
 ```bash
-git add src/bk/public/gallery.cljs src/bk/public/page.cljs
-git commit -m "feat: add gallery section"
+git add src/bk/public/gallery.cljs src/bk/public/page.cljs public/images/gallery/
+git commit -m "feat: add gallery section (static images)"
 ```
 
 ---
@@ -808,40 +776,30 @@ git commit -m "feat: add availability calendar"
 
 ---
 
-### Task 9: Testimonials section
+### Task 9: Google Reviews section
 
 **Files:**
-- Create: `src/bk/public/testimonials.cljs`
+- Create: `src/bk/public/reviews.cljs`
 - Modify: `src/bk/public/page.cljs`
 
-- [ ] **Step 1: Create `src/bk/public/testimonials.cljs`**
+- [ ] **Step 1: Create `src/bk/public/reviews.cljs`**
 
 ```clojure
-(ns bk.public.testimonials
-  (:require [reagent.core :as r]
-            [bk.supabase :as db]))
+(ns bk.public.reviews)
+
+(def google-maps-url "https://maps.app.goo.gl/quTKKkZQ2EFVrt1t7")
 
 (defn section []
-  (let [items (r/atom [])]
-    (db/fetch-testimonials #(reset! items %))
-    (fn []
-      (when (seq @items)
-        [:section#testimonials {:style {:background "#fff"}}
-         [:div.container
-          [:h2.section-title "What Our Clients Say"]
-          [:div {:style {:display "grid"
-                         :grid-template-columns "repeat(auto-fill, minmax(280px, 1fr))"
-                         :gap "24px"}}
-           (for [t @items]
-             ^{:key (:id t)}
-             [:div {:style {:background "var(--cream)"
-                            :border-radius "var(--radius)"
-                            :padding "28px"
-                            :border-left "4px solid var(--gold)"}}
-              [:p {:style {:font-style "italic" :color "var(--text)" :margin-bottom "16px" :line-height "1.7"}}
-               (str "\"" (:quote t) "\"")]
-              [:p {:style {:font-size "0.85rem" :font-weight "600" :color "var(--text-light)"}}
-               (:event_type t)]])]]]))))
+  [:section#reviews {:style {:background "var(--cream)" :text-align "center"}}
+   [:div.container
+    [:h2.section-title "What Our Clients Say"]
+    [:p.section-subtitle "Read verified reviews from our happy customers"]
+    [:a {:href google-maps-url
+         :target "_blank"
+         :rel "noopener noreferrer"
+         :class "btn-primary"
+         :style {:display "inline-flex" :align-items "center" :gap "8px"}}
+     "⭐ See our Google Reviews"]]])
 ```
 
 - [ ] **Step 2: Update `src/bk/public/page.cljs`**
@@ -853,7 +811,7 @@ git commit -m "feat: add availability calendar"
             [bk.public.amenities :as amenities]
             [bk.public.pricing :as pricing]
             [bk.public.calendar :as calendar]
-            [bk.public.testimonials :as testimonials]))
+            [bk.public.reviews :as reviews]))
 
 (defn root []
   [:div
@@ -862,23 +820,16 @@ git commit -m "feat: add availability calendar"
    [amenities/section]
    [pricing/section]
    [calendar/section]
-   [testimonials/section]])
+   [reviews/section]])
 ```
 
-- [ ] **Step 3: Add a test testimonial in Supabase SQL editor to verify rendering**
-
-```sql
-insert into testimonials (quote, event_type) values
-('The hall was absolutely stunning for our wedding. Everything went perfectly!', 'Wedding Reception');
-```
-
-Open http://localhost:3000 — testimonials section should appear with the quote.
+- [ ] **Step 3: Verify in browser** — Google Reviews button renders and opens Maps listing in new tab.
 
 - [ ] **Step 4: Commit**
 
 ```bash
-git add src/bk/public/testimonials.cljs src/bk/public/page.cljs
-git commit -m "feat: add testimonials section"
+git add src/bk/public/reviews.cljs src/bk/public/page.cljs
+git commit -m "feat: add Google Reviews section"
 ```
 
 ---
@@ -893,47 +844,47 @@ git commit -m "feat: add testimonials section"
 
 ```clojure
 (ns bk.public.faq
-  (:require [reagent.core :as r]
-            [bk.supabase :as db]))
+  (:require [reagent.core :as r]))
 
-(defn faq-item [{:keys [question answer]} open? on-toggle]
+(def faqs
+  [{:q "What is the maximum capacity?"
+    :a "BK Function Hall can comfortably accommodate up to 500 guests."}
+   {:q "Is outside catering allowed?"
+    :a "Yes, you are welcome to bring your own caterers. Our fully equipped kitchen is available for their use."}
+   {:q "How much advance is required to confirm a booking?"
+    :a "We require 30% of the total agreed amount as advance to confirm your booking."}
+   {:q "Is parking available?"
+    :a "Yes, we have ample parking space for all your guests at no extra charge."}
+   {:q "How do I check availability and get a quote?"
+    :a "Use the availability calendar above to check your date, then fill in the inquiry form or call us directly. We'll get back to you promptly to discuss your requirements and confirm pricing."}])
+
+(defn faq-item [{:keys [q a]} open? on-toggle]
   [:div {:style {:border-bottom "1px solid var(--cream-dark)" :padding "20px 0"}}
    [:button {:on-click on-toggle
              :style {:width "100%" :text-align "left" :background "none" :border "none"
                      :cursor "pointer" :display "flex" :justify-content "space-between"
                      :align-items "center" :font-size "1rem" :font-weight "600" :color "var(--dark)"}}
-    question
+    q
     [:span {:style {:font-size "1.4rem" :color "var(--gold)" :line-height "1"}} (if open? "−" "+")]]
    (when open?
-     [:p {:style {:margin-top "12px" :color "var(--text-light)" :line-height "1.7"}} answer])])
+     [:p {:style {:margin-top "12px" :color "var(--text-light)" :line-height "1.7"}} a])])
 
 (defn section []
-  (let [items (r/atom [])
-        open-id (r/atom nil)]
-    (db/fetch-faq #(reset! items %))
+  (let [open-idx (r/atom nil)]
     (fn []
-      (when (seq @items)
-        [:section#faq {:style {:background "var(--cream)"}}
-         [:div.container {:style {:max-width "760px"}}
-          [:h2.section-title "Frequently Asked Questions"]
-          (for [item @items]
-            ^{:key (:id item)}
-            [faq-item item
-             (= @open-id (:id item))
-             #(reset! open-id (when (not= @open-id (:id item)) (:id item)))])]]))))
+      [:section#faq {:style {:background "#fff"}}
+       [:div.container {:style {:max-width "760px"}}
+        [:h2.section-title "Frequently Asked Questions"]
+        (map-indexed
+         (fn [i item]
+           ^{:key i}
+           [faq-item item
+            (= @open-idx i)
+            #(reset! open-idx (when (not= @open-idx i) i))])
+         faqs)]])))
 ```
 
-- [ ] **Step 2: Add test FAQ entries in Supabase SQL editor**
-
-```sql
-insert into faq (question, answer, "order") values
-('What is the maximum capacity?', 'BK Function Hall can comfortably accommodate up to 500 guests.', 1),
-('Is outside catering allowed?', 'Yes, you are welcome to bring your own caterers. Our fully equipped kitchen is available for their use.', 2),
-('How much advance is required to confirm a booking?', 'We require 30% of the total agreed amount as advance to confirm your booking.', 3),
-('Is parking available?', 'Yes, we have ample parking space for all your guests at no extra charge.', 4);
-```
-
-- [ ] **Step 3: Update `src/bk/public/page.cljs`**
+- [ ] **Step 2: Update `src/bk/public/page.cljs`**
 
 ```clojure
 (ns bk.public.page
@@ -942,7 +893,7 @@ insert into faq (question, answer, "order") values
             [bk.public.amenities :as amenities]
             [bk.public.pricing :as pricing]
             [bk.public.calendar :as calendar]
-            [bk.public.testimonials :as testimonials]
+            [bk.public.reviews :as reviews]
             [bk.public.faq :as faq]))
 
 (defn root []
@@ -952,22 +903,99 @@ insert into faq (question, answer, "order") values
    [amenities/section]
    [pricing/section]
    [calendar/section]
-   [testimonials/section]
+   [reviews/section]
    [faq/section]])
 ```
 
-- [ ] **Step 4: Verify FAQ accordion opens/closes in browser.**
+- [ ] **Step 3: Verify FAQ accordion opens/closes in browser.**
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 4: Commit**
 
 ```bash
 git add src/bk/public/faq.cljs src/bk/public/page.cljs
-git commit -m "feat: add FAQ accordion section"
+git commit -m "feat: add FAQ accordion section (hardcoded)"
 ```
 
 ---
 
-### Task 11: Inquiry form
+### Task 11: Find Us section
+
+**Files:**
+- Create: `src/bk/public/location.cljs`
+- Modify: `src/bk/public/page.cljs`
+
+- [ ] **Step 1: Create `src/bk/public/location.cljs`**
+
+```clojure
+(ns bk.public.location)
+
+(def directions-url "https://maps.app.goo.gl/quTKKkZQ2EFVrt1t7")
+
+(defn section []
+  [:section#location {:style {:background "var(--cream)"}}
+   [:div.container
+    [:h2.section-title "Find Us"]
+    [:p.section-subtitle "BK Function Hall — easy to reach, easy to find"]
+    [:div {:style {:display "grid" :grid-template-columns "1fr 1fr" :gap "40px" :align-items "center"}}
+     [:div
+      [:p {:style {:font-size "1rem" :color "var(--text)" :line-height "1.8" :margin-bottom "24px"}}
+       ;; Owner to fill in actual address
+       "BK Function Hall" [:br]
+       "Address line 1" [:br]
+       "City, State — PIN" [:br]
+       [:span {:style {:color "var(--text-light)" :font-size "0.9rem"}} "Near: landmark"]]
+      [:a {:href directions-url
+           :target "_blank"
+           :rel "noopener noreferrer"
+           :class "btn-primary"}
+       "📍 Get Directions"]]
+     [:div {:style {:border-radius "var(--radius)" :overflow "hidden" :height "300px"}}
+      [:iframe {:src "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2000!2d77.779173!3d14.5306815!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bb1510032c14a73%3A0x6cda236b0f44c696!2sBK%20Function%20Hall!5e0!3m2!1sen!2sin!4v1"
+                :width "100%"
+                :height "300"
+                :style {:border "0"}
+                :allow-full-screen ""
+                :loading "lazy"
+                :referrer-policy "no-referrer-when-downgrade"}]]]]])
+```
+
+- [ ] **Step 2: Update `src/bk/public/page.cljs`**
+
+```clojure
+(ns bk.public.page
+  (:require [bk.public.hero :as hero]
+            [bk.public.gallery :as gallery]
+            [bk.public.amenities :as amenities]
+            [bk.public.pricing :as pricing]
+            [bk.public.calendar :as calendar]
+            [bk.public.reviews :as reviews]
+            [bk.public.faq :as faq]
+            [bk.public.location :as location]))
+
+(defn root []
+  [:div
+   [hero/section]
+   [gallery/section]
+   [amenities/section]
+   [pricing/section]
+   [calendar/section]
+   [reviews/section]
+   [faq/section]
+   [location/section]])
+```
+
+- [ ] **Step 3: Verify in browser** — embedded map renders with BK Function Hall pin, directions button opens Maps in new tab.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add src/bk/public/location.cljs src/bk/public/page.cljs
+git commit -m "feat: add Find Us section with embedded map"
+```
+
+---
+
+### Task 12: Inquiry form
 
 **Files:**
 - Create: `src/bk/public/inquiry.cljs`
@@ -1106,7 +1134,7 @@ git commit -m "feat: add inquiry form with Supabase submission"
 
 ---
 
-### Task 12: PWA manifest and service worker
+### Task 13: PWA manifest and service worker
 
 **Files:**
 - Create: `public/manifest.json`
@@ -1177,7 +1205,7 @@ git commit -m "feat: add PWA manifest and service worker"
 
 ---
 
-### Task 13: Footer
+### Task 14: Footer
 
 **Files:**
 - Modify: `src/bk/public/page.cljs`
@@ -1191,8 +1219,9 @@ git commit -m "feat: add PWA manifest and service worker"
             [bk.public.amenities :as amenities]
             [bk.public.pricing :as pricing]
             [bk.public.calendar :as calendar]
-            [bk.public.testimonials :as testimonials]
+            [bk.public.reviews :as reviews]
             [bk.public.faq :as faq]
+            [bk.public.location :as location]
             [bk.public.inquiry :as inquiry]))
 
 (defn footer []
@@ -1208,8 +1237,9 @@ git commit -m "feat: add PWA manifest and service worker"
    [amenities/section]
    [pricing/section]
    [calendar/section]
-   [testimonials/section]
+   [reviews/section]
    [faq/section]
+   [location/section]
    [inquiry/section]
    [footer]])
 ```
@@ -1223,7 +1253,7 @@ git commit -m "feat: add footer"
 
 ---
 
-### Task 14: GitHub Actions deployment to GitHub Pages
+### Task 15: GitHub Actions deployment to GitHub Pages
 
 **Files:**
 - Create: `.github/workflows/deploy.yml`
@@ -1312,18 +1342,17 @@ Go to GitHub → Actions tab — watch the workflow run. After it completes, vis
 
 **Spec coverage check:**
 - ✅ Hero with two CTAs
-- ✅ Gallery from Supabase Storage
-- ✅ Amenities: parking, catering kitchen, decoration, seating capacity
-- ✅ Pricing with base rates + "call to confirm" note
+- ✅ Gallery — static images from `public/images/gallery/`
+- ✅ Amenities: parking, catering kitchen, decoration, seating capacity (hardcoded)
+- ✅ Pricing with base rates + "call to confirm" note (hardcoded)
 - ✅ Availability calendar — booked dates only, no customer details
-- ✅ Testimonials from Supabase
-- ✅ FAQ accordion from Supabase
+- ✅ Google Reviews link to Maps listing
+- ✅ FAQ accordion (hardcoded)
+- ✅ Find Us — embedded map + directions link using actual coordinates
 - ✅ Inquiry form — all required fields, submits to Supabase, confirmation message
 - ✅ PWA manifest + service worker
 - ✅ GitHub Actions + GitHub Pages deployment
 
-**Gap found:** The spec says "No WhatsApp button" on the public site but doesn't mention a phone number display. Adding the owner's phone number to the footer and inquiry section is implied by "customer calls the owner directly." Addressed in the footer and inquiry section subtitle.
+**Placeholder scan:** No TBDs, all code blocks complete. Owner needs to fill in actual address in `location.cljs` and add real photos to `public/images/gallery/`.
 
-**Placeholder scan:** No TBDs, all code blocks are complete.
-
-**Type consistency:** `fetch-gallery`, `fetch-testimonials`, `fetch-faq`, `fetch-booked-dates`, `submit-inquiry` defined in Task 2 and used consistently in Tasks 5, 9, 10, 8, 11 respectively.
+**Type consistency:** `fetch-booked-dates` and `submit-inquiry` defined in Task 2 and used in Tasks 8 and 12 respectively.

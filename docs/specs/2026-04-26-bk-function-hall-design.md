@@ -36,7 +36,7 @@ Single scrolling page at the root URL. No login required. Entirely read-only fro
 
 **2. Gallery**
 - Photo grid of the hall interior, exterior, past decorated events
-- Photos managed by owner via Supabase Storage (uploaded through admin panel)
+- Photos stored in `public/images/gallery/` in the repo — updated via git push + deploy
 
 **3. Amenities**
 - Icon grid showing: Parking, Catering Kitchen, Decoration, Seating Capacity
@@ -99,7 +99,6 @@ Accessible at `/admin`. Requires login. Built as a separate view in the same Clo
 | View inquiries | ✅ | ✅ |
 | Mark inquiry status | ✅ | ✅ |
 | Send WhatsApp confirmation | ✅ | ❌ |
-| Manage gallery | ✅ | ❌ |
 
 ### Screens
 
@@ -146,9 +145,6 @@ Accessible at `/admin`. Requires login. Built as a separate view in the same Clo
 - Net profit = Income − Event expenses − Overhead
 - Simple table, no charts
 
-**Content Management (owner only)**
-- Gallery: upload/delete photos (stored in Supabase Storage)
-
 ---
 
 ## Database Schema (Supabase / Postgres)
@@ -161,10 +157,10 @@ booking_financials — id, booking_id, venue_fee, discount, total_agreed, advanc
 booking_line_items — id, booking_id, label, amount  (revenue side: agreed price breakdown shown to customer)
 booking_expenses   — id, booking_id, label, amount, date, category  (cost side: what owner actually spent on the event)
 overhead_expenses  — id, label, amount, month, year, category
-gallery_photos     — id, url, caption, order
 ```
 
-Removed from schema (now hardcoded in frontend): `testimonials`, `faq`
+Hardcoded in frontend (no DB): amenities, pricing, FAQ, gallery photos
+External (no DB): testimonials → Google Reviews link
 
 RLS policies ensure `booking_financials`, `booking_expenses`, `overhead_expenses`, and P&L data are readable only by the `owner` role.
 
