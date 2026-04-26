@@ -1,0 +1,42 @@
+shadow-cljs.edn
+  b802fdfa-2943-4d95-9317-4c556179c098 10-11,13-15
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 5,
+          "added_lines": 5,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "10-11,13-15",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "shadow-cljs.edn"
+    }
+  ],
+  "base_commit_sha": "7d72ef80b0e08b205c9e31b44d23f5532c45dfdf",
+  "branch": "feature/admin-panel",
+  "commit_sha": "7b6581626ed2aa11387f9a86e6373de52b2adf3b",
+  "commit_time": "2026-04-26T19:04:49+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 5,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 5,
+      "total_deletions": 0
+    }
+  },
+  "repo": "git@github.com:Harsha-Kiran-Boyapati/bk-hall.git",
+  "schema_version": "authorship/3.0.0"
+}
