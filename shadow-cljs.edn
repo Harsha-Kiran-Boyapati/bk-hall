@@ -7,4 +7,5 @@
    :output-dir "public/js"
    :asset-path "/js"
    :modules {:main {:init-fn bk.core/init}}
-   :devtools {:after-load bk.core/init}}}}
+   :devtools {:after-load bk.core/init}
+   :release {:compiler-options {:optimizations :advanced}}}}}
