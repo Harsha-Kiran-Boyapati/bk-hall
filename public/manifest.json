@@ -1,0 +1,21 @@
+{
+  "name": "BK Function Hall",
+  "short_name": "BK Hall",
+  "description": "Book BK Function Hall for weddings, receptions and celebrations",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fdf6e3",
+  "theme_color": "#b8922a",
+  "icons": [
+    {
+      "src": "/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
