@@ -1,0 +1,57 @@
+src/bk/supabase.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 129-142,159-172,189-202
+src/bk/admin/booking_detail.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 27-75,105-212,351,361,383
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 42,
+          "added_lines": 42,
+          "deleted_lines": 2,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "129-142,159-172,189-202",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/supabase.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 160,
+          "added_lines": 160,
+          "deleted_lines": 10,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "27-75,105-212,351,361,383",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/admin/booking_detail.cljs"
+    }
+  ],
+  "base_commit_sha": "484147b6ec17254800d480f1c5937fbd9cfbc950",
+  "branch": "main",
+  "commit_sha": "2ae667504ceea04299d96423b5958b9d317134f6",
+  "commit_time": "2026-04-26T19:16:08+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 202,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 202,
+      "total_deletions": 12
+    }
+  },
+  "repo": "git@github.com:Harsha-Kiran-Boyapati/bk-hall.git",
+  "schema_version": "authorship/3.0.0"
+}
