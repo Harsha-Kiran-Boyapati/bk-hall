@@ -5,7 +5,8 @@
             [bk.public.pricing :as pricing]
             [bk.public.calendar :as calendar]
             [bk.public.reviews :as reviews]
-            [bk.public.faq :as faq]))
+            [bk.public.faq :as faq]
+            [bk.public.location :as location]))
 
 (defn root []
   [:div
@@ -15,4 +16,5 @@
    [pricing/section]
    [calendar/section]
    [reviews/section]
-   [faq/section]])
+   [faq/section]
+   [location/section]])
