@@ -1,0 +1,74 @@
+src/bk/public/page.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 5-6,13-14
+  human 12
+src/bk/public/calendar.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 1-77
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 4,
+          "added_lines": 4,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "5-6,13-14",
+          "overridden_lines": 0
+        },
+        {
+          "accepted_lines": 0,
+          "added_lines": 0,
+          "deleted_lines": 1,
+          "hash": "human",
+          "lines": "12",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/public/page.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 77,
+          "added_lines": 77,
+          "deleted_lines": 2,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-77",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/public/calendar.cljs"
+    }
+  ],
+  "base_commit_sha": "008de7f5eefc369a0e0c03634395c8edf65e2240",
+  "branch": "feature/public-website",
+  "commit_sha": "8b95be6b8fa1a331075c22e6f2a426c360b8656d",
+  "commit_time": "2026-04-26T14:14:46+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 81,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 81,
+      "total_deletions": 2
+    },
+    "human": {
+      "accepted_lines": 0,
+      "agent_id": null,
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 0,
+      "total_deletions": 1
+    }
+  },
+  "schema_version": "authorship/3.0.0"
+}
