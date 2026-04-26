@@ -47,7 +47,7 @@
                          (reset! loading? false)))
     (fn []
       (let [active    (filterv #(contains? #{"confirmed"} (:status %)) @bookings)
-            completed (filterv #(= "completed" (:status %)) @bookings)]
+            completed (filterv #(contains? #{"completed" "cancelled"} (:status %)) @bookings)]
         [:div
          [:div {:style {:display "flex" :justify-content "space-between" :align-items "center"
                         :margin-bottom "24px"}}
