@@ -1,0 +1,101 @@
+shadow-cljs.edn
+  b802fdfa-2943-4d95-9317-4c556179c098 11-14
+src/bk/supabase.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 4-5,7,10
+package.json
+  b802fdfa-2943-4d95-9317-4c556179c098 4-6
+.env.example
+  b802fdfa-2943-4d95-9317-4c556179c098 1-2
+.github/workflows/deploy.yml
+  b802fdfa-2943-4d95-9317-4c556179c098 34-36
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 4,
+          "added_lines": 4,
+          "deleted_lines": 1,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "11-14",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "shadow-cljs.edn"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 4,
+          "added_lines": 4,
+          "deleted_lines": 1,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "4-5,7,10",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/supabase.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 3,
+          "added_lines": 3,
+          "deleted_lines": 1,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "4-6",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "package.json"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 2,
+          "added_lines": 2,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-2",
+          "overridden_lines": 0
+        }
+      ],
+      "file": ".env.example"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 3,
+          "added_lines": 3,
+          "deleted_lines": 4,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "34-36",
+          "overridden_lines": 0
+        }
+      ],
+      "file": ".github/workflows/deploy.yml"
+    }
+  ],
+  "base_commit_sha": "a9724f65f38243254feb692c486b814bae59f7b9",
+  "branch": "feature/public-website",
+  "commit_sha": "4588b4f798f21bf24ea0c2314a08b04328f1f410",
+  "commit_time": "2026-04-26T14:51:09+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 16,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 16,
+      "total_deletions": 7
+    }
+  },
+  "schema_version": "authorship/3.0.0"
+}
