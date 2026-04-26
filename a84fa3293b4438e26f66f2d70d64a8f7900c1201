@@ -1,0 +1,11 @@
+---
+{
+  "attestations": [],
+  "base_commit_sha": "4588b4f798f21bf24ea0c2314a08b04328f1f410",
+  "branch": "feature/public-website",
+  "commit_sha": "a84fa3293b4438e26f66f2d70d64a8f7900c1201",
+  "commit_time": "2026-04-26T14:51:59+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {},
+  "schema_version": "authorship/3.0.0"
+}
