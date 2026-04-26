@@ -1,6 +1,8 @@
 (ns bk.public.page
-  (:require [bk.public.hero :as hero]))
+  (:require [bk.public.hero :as hero]
+            [bk.public.gallery :as gallery]))
 
 (defn root []
   [:div
-   [hero/section]])
+   [hero/section]
+   [gallery/section]])
