@@ -1,0 +1,38 @@
+supabase/schema.sql
+  human 1-120
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 120,
+          "added_lines": 120,
+          "deleted_lines": 0,
+          "hash": "human",
+          "lines": "1-120",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "supabase/schema.sql"
+    }
+  ],
+  "base_commit_sha": "1bb0122a07d63c89e794faa924af0894e0d1b6e4",
+  "branch": "HEAD",
+  "commit_sha": "56cdcdf45a5e0f643cc29a45cf42eb5bcdbf826d",
+  "commit_time": "2026-04-26T15:29:23+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "human": {
+      "accepted_lines": 120,
+      "agent_id": null,
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 120,
+      "total_deletions": 0
+    }
+  },
+  "repo": "git@github.com:Harsha-Kiran-Boyapati/bk-hall.git",
+  "schema_version": "authorship/3.0.0"
+}
