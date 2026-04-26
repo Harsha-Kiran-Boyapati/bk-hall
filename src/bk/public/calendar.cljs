@@ -37,7 +37,7 @@
      (for [day (range 1 (inc days))]
        (let [ds (date-str year month day)
              booked? (contains? booked-set ds)
-             past? (< ds today-str)]
+             past? (neg? (compare ds today-str))]
          ^{:key ds}
          [:div {:style {:text-align "center"
                         :padding "8px 4px"
