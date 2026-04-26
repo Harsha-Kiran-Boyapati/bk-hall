@@ -106,7 +106,14 @@ Accessible at `/admin`. Requires login. Built as a separate view in the same Clo
 - List of all inquiries from public form: name, phone, event date, event type, guest count, add-ons interested, message
 - Status: `new` → `called back` → `converted` / `not interested`
 - Both roles can update status
-- Owner can convert inquiry to booking directly from this screen
+- Owner can convert inquiry to booking directly from this screen — opens booking creation form pre-filled with inquiry details
+
+**Create Booking (owner only)**
+Single form capturing everything agreed on the call, submitted atomically:
+- Customer details: name, phone, event date, event type, guest count, add-ons, notes
+- Line items: one row per charge (label + amount) — e.g. "Venue hire ₹30,000", "Decoration ₹15,000", "Helpers — 8 workers ₹4,000", "Electricity charges ₹2,000"
+- First payment: amount + date (advance)
+All three — booking, line items, first payment — inserted together in one transaction.
 
 **Bookings**
 - List view: date, customer name, event type, guest count, status (`confirmed` / `completed` / `cancelled`)
@@ -117,31 +124,34 @@ Accessible at `/admin`. Requires login. Built as a separate view in the same Clo
   - Add-ons ordered (decoration extent, catering, others)
   - Special requirements / notes
 - Booking detail — financial section (owner only):
-  - Line items (charged to customer): venue hire fee, decoration, catering, helpers (e.g. "Helpers — 8 workers × ₹500"), electricity charges, other add-ons with custom labels and amounts
-  - Discount applied (if any), final agreed total
-  - Advance paid (amount + date)
-  - Balance due + expected payment date
-  - Per-event expenses (owner's actual costs): what owner paid for workers, vendors, materials (each with label, amount, date, category)
+  - Line items: all charges with labels and amounts
+  - Derived total = sum of line items (no stored total field)
+  - Payment history: list of payments with amounts and dates
+  - Derived paid = sum of payments
+  - Derived due = total − paid
+  - Add line item button (for post-event additions e.g. extra helpers)
+  - Add payment button (for balance and any partial payments)
+  - Per-event expenses: what owner actually spent (label, amount, date, category)
 
 **WhatsApp Confirmation (owner only)**
 - Button on booking detail: "Send Confirmation via WhatsApp"
 - Generates a `wa.me` link with pre-filled message containing:
   - Customer name, event date, event type, guest count
-  - Add-ons confirmed
-  - Total agreed price, advance paid, balance due
+  - Line items with amounts
+  - Total, advance paid, balance due
 - Opens WhatsApp on owner's device with message ready to send
 - Owner reviews and sends manually — no automation
 
 **Expenses — Overhead (owner only)**
 - Monthly recurring costs not tied to a specific event
-- Fields: label (free-text description e.g. "Electricity bill - April"), amount, month, category (electricity / maintenance / cleaning / labour / other)
+- Fields: label (free-text e.g. "Electricity bill — April"), amount, month, category (electricity / maintenance / cleaning / labour / other)
 - Listed separately from per-event expenses
 
 **Monthly P&L (owner only)**
 - Select month/year to view
-- Income: sum of total agreed prices for completed events that month
-- Event expenses: sum of all per-event expense line items for that month
-- Overhead expenses: sum of overhead entries for that month
+- Income: sum of `booking_line_items` for completed events that month
+- Event expenses: sum of `booking_expenses` for events that month
+- Overhead: sum of `overhead_expenses` for that month
 - Net profit = Income − Event expenses − Overhead
 - Simple table, no charts
 
@@ -150,19 +160,24 @@ Accessible at `/admin`. Requires login. Built as a separate view in the same Clo
 ## Database Schema (Supabase / Postgres)
 
 ```
-profiles           — id, user_id (auth.users), role (owner|staff), name
-inquiries          — id, name, phone, event_date, event_type, guest_count, addons, message, status, created_at
-bookings           — id, customer_name, phone, event_date, event_type, guest_count, addons, notes, status
-booking_financials — id, booking_id, venue_fee, discount, total_agreed, advance_paid, advance_date, balance_due
-booking_line_items — id, booking_id, label, amount  (revenue side: agreed price breakdown shown to customer)
-booking_expenses   — id, booking_id, label, amount, date, category  (cost side: what owner actually spent on the event — categories: electricity/labour/catering/decoration/other)
-overhead_expenses  — id, label, amount, month, year, category
+profiles          — id, user_id (auth.users), role (owner|staff), name
+inquiries         — id, name, phone, event_date, event_type, guest_count, addons, message, status, created_at
+bookings          — id, customer_name, phone, event_date, event_type, guest_count, addons, notes, status, created_at
+booking_line_items — id, booking_id, label, amount  (revenue: what customer is charged — venue hire, decoration, helpers, electricity etc.)
+booking_payments  — id, booking_id, amount, date, note  (each payment received — advance, partial, balance)
+booking_expenses  — id, booking_id, label, amount, date, category  (cost: what owner actually spent — categories: electricity/labour/catering/decoration/other)
+overhead_expenses — id, label, amount, month, year, category  (monthly costs: electricity/maintenance/cleaning/labour/other)
 ```
+
+Derived (never stored):
+- **total** = sum of `booking_line_items` for a booking
+- **paid** = sum of `booking_payments` for a booking
+- **due** = total − paid
 
 Hardcoded in frontend (no DB): amenities, pricing, FAQ, gallery photos
 External (no DB): testimonials → Google Reviews link
 
-RLS policies ensure `booking_financials`, `booking_expenses`, `overhead_expenses`, and P&L data are readable only by the `owner` role.
+RLS policies ensure `booking_line_items`, `booking_payments`, `booking_expenses`, `overhead_expenses`, and P&L data are readable only by the `owner` role.
 
 ---
 
