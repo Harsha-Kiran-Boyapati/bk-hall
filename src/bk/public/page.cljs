@@ -3,7 +3,8 @@
             [bk.public.gallery :as gallery]
             [bk.public.amenities :as amenities]
             [bk.public.pricing :as pricing]
-            [bk.public.calendar :as calendar]))
+            [bk.public.calendar :as calendar]
+            [bk.public.reviews :as reviews]))
 
 (defn root []
   [:div
@@ -11,4 +12,5 @@
    [gallery/section]
    [amenities/section]
    [pricing/section]
-   [calendar/section]])
+   [calendar/section]
+   [reviews/section]])
