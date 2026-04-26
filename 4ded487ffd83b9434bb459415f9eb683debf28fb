@@ -1,0 +1,41 @@
+src/bk/public/page.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 12-17,28-29
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 8,
+          "added_lines": 8,
+          "deleted_lines": 1,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "12-17,28-29",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/public/page.cljs"
+    }
+  ],
+  "base_commit_sha": "770bf0ca650a6233df785c8d450a006c729ea76f",
+  "branch": "feature/public-website",
+  "commit_sha": "4ded487ffd83b9434bb459415f9eb683debf28fb",
+  "commit_time": "2026-04-26T14:21:08+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 8,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 8,
+      "total_deletions": 1
+    }
+  },
+  "schema_version": "authorship/3.0.0"
+}
