@@ -22,9 +22,9 @@
 (defn calendar-grid [year month booked-dates]
   (let [days (days-in-month year month)
         first-day (first-day-of-month year month)
-        today-str (date-str (+ 1900 (.-getYear (today)))
-                            (inc (.-getMonth (today)))
-                            (.-getDate (today)))
+        today-str (date-str (.getFullYear (today))
+                            (inc (.getMonth (today)))
+                            (.getDate (today)))
         booked-set (set booked-dates)]
     [:div {:style {:display "grid" :grid-template-columns "repeat(7, 1fr)" :gap "4px"}}
      (for [d ["Sun" "Mon" "Tue" "Wed" "Thu" "Fri" "Sat"]]
@@ -51,8 +51,8 @@
 
 (defn section []
   (let [now (today)
-        year (r/atom (+ 1900 (.-getYear now)))
-        month (r/atom (inc (.-getMonth now)))
+        year (r/atom (.getFullYear now))
+        month (r/atom (inc (.getMonth now)))
         booked-dates (r/atom [])]
     (db/fetch-booked-dates #(reset! booked-dates %))
     (fn []
