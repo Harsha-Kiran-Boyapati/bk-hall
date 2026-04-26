@@ -1,0 +1,41 @@
+docs/specs/2026-04-26-bk-function-hall-design.md
+  b802fdfa-2943-4d95-9317-4c556179c098 43,49,56-59,62-63,65-70,102,138,157-159,162-164,167-168
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 24,
+          "added_lines": 25,
+          "deleted_lines": 18,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "43,49,56-59,62-63,65-70,102,138,157-159,162-164,167-168",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "docs/specs/2026-04-26-bk-function-hall-design.md"
+    }
+  ],
+  "base_commit_sha": "8fa13b27dd0affcd5d69c24bd7a6449f7f6df6aa",
+  "branch": "main",
+  "commit_sha": "edc0dba022c7c97008a472eb58c8c52a828072bf",
+  "commit_time": "2026-04-26T12:34:59+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 24,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 25,
+      "total_deletions": 18
+    }
+  },
+  "schema_version": "authorship/3.0.0"
+}
