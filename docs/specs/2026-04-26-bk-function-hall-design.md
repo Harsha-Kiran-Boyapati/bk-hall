@@ -40,25 +40,34 @@ Single scrolling page at the root URL. No login required. Entirely read-only fro
 
 **3. Amenities**
 - Icon grid showing: Parking, Catering Kitchen, Decoration, Seating Capacity
+- Hardcoded in frontend — content is stable and doesn't need a database
 
 **4. Pricing**
 - Base rates displayed for: Hall hire, Decoration (starting price), Catering (starting price), other add-ons
 - Note: "Final pricing confirmed on call based on your requirements"
 - No negotiated/event-specific prices shown
+- Hardcoded in frontend — changes rarely, requires deliberate update via code
 
 **5. Availability Calendar**
 - Shows blocked/booked dates only
 - No customer names or event details visible
 - Read from Supabase — only confirmed bookings are marked blocked
 
-**6. Testimonials**
-- Quotes from past events, managed by owner in admin panel
+**6. Google Reviews**
+- "⭐ See our reviews on Google" button linking to the hall's Google Maps listing
+- Link: https://maps.app.goo.gl/quTKKkZQ2EFVrt1t7
+- No embedded widget — fully trusted external source, zero maintenance
 
 **7. FAQ**
-- Common questions (capacity, parking, outside catering policy, etc.)
-- Static content, editable by owner in admin panel
+- Common questions (capacity, parking, outside catering policy, advance required, etc.)
+- Hardcoded in frontend — stable content, no database needed
 
-**8. Inquiry Form**
+**8. Find Us**
+- Full address and nearby landmark
+- Embedded Google Maps iframe (coordinates: 14.5306815, 77.779173 — no API key required)
+- "Get Directions" button linking to: https://maps.app.goo.gl/quTKKkZQ2EFVrt1t7
+
+**9. Inquiry Form**
 Fields: Name, Phone number, Event date, Event type (wedding/reception/birthday/other), Approximate guest count, Add-ons interested in (checkboxes), Message
 - Submits to `inquiries` table in Supabase
 - Customer sees a confirmation message: "We'll call you shortly to discuss your requirements"
@@ -90,7 +99,7 @@ Accessible at `/admin`. Requires login. Built as a separate view in the same Clo
 | View inquiries | ✅ | ✅ |
 | Mark inquiry status | ✅ | ✅ |
 | Send WhatsApp confirmation | ✅ | ❌ |
-| Manage gallery/testimonials/FAQ | ✅ | ❌ |
+| Manage gallery | ✅ | ❌ |
 
 ### Screens
 
@@ -126,7 +135,7 @@ Accessible at `/admin`. Requires login. Built as a separate view in the same Clo
 
 **Expenses — Overhead (owner only)**
 - Monthly recurring costs not tied to a specific event
-- Fields: label, amount, month, category (electricity / maintenance / cleaning / other)
+- Fields: label (free-text description e.g. "Electricity bill - April"), amount, month, category (electricity / maintenance / cleaning / other)
 - Listed separately from per-event expenses
 
 **Monthly P&L (owner only)**
@@ -139,25 +148,23 @@ Accessible at `/admin`. Requires login. Built as a separate view in the same Clo
 
 **Content Management (owner only)**
 - Gallery: upload/delete photos (stored in Supabase Storage)
-- Testimonials: add/edit/delete quotes
-- FAQ: add/edit/delete Q&A pairs
 
 ---
 
 ## Database Schema (Supabase / Postgres)
 
 ```
-profiles          — id, user_id (auth.users), role (owner|staff), name
-inquiries         — id, name, phone, event_date, event_type, guest_count, addons, message, status, created_at
-bookings          — id, customer_name, phone, event_date, event_type, guest_count, addons, notes, status
+profiles           — id, user_id (auth.users), role (owner|staff), name
+inquiries          — id, name, phone, event_date, event_type, guest_count, addons, message, status, created_at
+bookings           — id, customer_name, phone, event_date, event_type, guest_count, addons, notes, status
 booking_financials — id, booking_id, venue_fee, discount, total_agreed, advance_paid, advance_date, balance_due
 booking_line_items — id, booking_id, label, amount  (revenue side: agreed price breakdown shown to customer)
-booking_expenses  — id, booking_id, label, amount, date, category  (cost side: what owner actually spent on the event)
-overhead_expenses — id, label, amount, month, year, category
-gallery_photos    — id, url, caption, order
-testimonials      — id, quote, event_type, created_at
-faq               — id, question, answer, order
+booking_expenses   — id, booking_id, label, amount, date, category  (cost side: what owner actually spent on the event)
+overhead_expenses  — id, label, amount, month, year, category
+gallery_photos     — id, url, caption, order
 ```
+
+Removed from schema (now hardcoded in frontend): `testimonials`, `faq`
 
 RLS policies ensure `booking_financials`, `booking_expenses`, `overhead_expenses`, and P&L data are readable only by the `owner` role.
 
@@ -167,4 +174,3 @@ RLS policies ensure `booking_financials`, `booking_expenses`, `overhead_expenses
 
 **Phase 1 (this spec):** Public website + admin panel as described above
 **Phase 2 (future):** Online self-service booking with payment, WhatsApp Business API notifications
-```
