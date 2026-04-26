@@ -1,22 +1,24 @@
-public/css/components.css
-  b802fdfa-2943-4d95-9317-4c556179c098 1-54
+src/bk/supabase.cljs
+  human 1-21
 public/css/style.css
-  b802fdfa-2943-4d95-9317-4c556179c098 1-48
+  human 1-48
+public/css/components.css
+  human 1-54
 ---
 {
   "attestations": [
     {
       "entries": [
         {
-          "accepted_lines": 54,
-          "added_lines": 54,
+          "accepted_lines": 21,
+          "added_lines": 21,
           "deleted_lines": 0,
-          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
-          "lines": "1-54",
+          "hash": "human",
+          "lines": "1-21",
           "overridden_lines": 0
         }
       ],
-      "file": "public/css/components.css"
+      "file": "src/bk/supabase.cljs"
     },
     {
       "entries": [
@@ -24,31 +26,40 @@ public/css/style.css
           "accepted_lines": 48,
           "added_lines": 48,
           "deleted_lines": 0,
-          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "hash": "human",
           "lines": "1-48",
           "overridden_lines": 0
         }
       ],
       "file": "public/css/style.css"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 54,
+          "added_lines": 54,
+          "deleted_lines": 0,
+          "hash": "human",
+          "lines": "1-54",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "public/css/components.css"
     }
   ],
-  "base_commit_sha": "b15b5bdc7f185e4a8f59c51a9a55938126af90d7",
+  "base_commit_sha": "1c0ed5684f47c91c28f36f5b990ebd9bb5480da8",
   "branch": "feature/public-website",
   "commit_sha": "a21991cc87aa5dd44406701d6f4f802d589fa000",
   "commit_time": "2026-04-26T14:06:32+05:30",
   "git_ai_version": "1.2.6",
   "prompts": {
-    "b802fdfa-2943-4d95-9317-4c556179c098": {
-      "accepted_lines": 102,
-      "agent_id": {
-        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
-        "model": "claude-sonnet-4-6",
-        "tool": "claude"
-      },
+    "human": {
+      "accepted_lines": 123,
+      "agent_id": null,
       "human_author": "Harsha <harsha.boyapati@harness.io>",
       "messages": [],
       "overriden_lines": 0,
-      "total_additions": 102,
+      "total_additions": 123,
       "total_deletions": 0
     }
   },
