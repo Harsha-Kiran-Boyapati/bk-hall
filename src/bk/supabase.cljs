@@ -1,16 +1,14 @@
 (ns bk.supabase
   (:require ["@supabase/supabase-js" :refer [createClient]]))
 
-;; Replace with actual values from Supabase dashboard (Settings → API)
-(def supabase-url "https://YOUR_PROJECT_ID.supabase.co")
-(def supabase-key "YOUR_ANON_PUBLIC_KEY")
+(goog-define SUPABASE_URL "")
+(goog-define SUPABASE_KEY "")
 
-(defonce client (createClient supabase-url supabase-key))
+(defonce client (createClient SUPABASE_URL SUPABASE_KEY))
 
 (defn fetch-booked-dates [callback]
-  (-> (.from client "bookings")
+  (-> (.from client "public_booked_dates")
       (.select "event_date")
-      (.eq "status" "confirmed")
       (.then #(callback (map :event_date (js->clj (.-data %) :keywordize-keys true))))
       (.catch #(js/console.error "fetch-booked-dates error" %))))
 

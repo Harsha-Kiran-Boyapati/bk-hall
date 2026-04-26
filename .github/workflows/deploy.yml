@@ -31,6 +31,9 @@ jobs:
 
       - name: Compile ClojureScript
         run: npx shadow-cljs release app
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

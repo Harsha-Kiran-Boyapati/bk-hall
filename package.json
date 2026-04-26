@@ -1,6 +1,9 @@
 {
   "name": "bk-function-hall",
   "version": "1.0.0",
+  "scripts": {
+    "dev": "export $(cat .env | xargs) && npx shadow-cljs watch app"
+  },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

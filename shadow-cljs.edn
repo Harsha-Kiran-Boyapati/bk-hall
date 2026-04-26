@@ -8,4 +8,7 @@
    :asset-path "/js"
    :modules {:main {:init-fn bk.core/init}}
    :devtools {:after-load bk.core/init}
-   :release {:compiler-options {:optimizations :advanced}}}}}
+   :release {:compiler-options
+             {:optimizations :advanced
+              :closure-defines {bk.supabase/SUPABASE_URL #shadow/env "SUPABASE_URL"
+                                bk.supabase/SUPABASE_KEY #shadow/env "SUPABASE_KEY"}}}}}}
