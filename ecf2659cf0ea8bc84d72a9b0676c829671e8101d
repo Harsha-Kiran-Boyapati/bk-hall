@@ -1,0 +1,219 @@
+src/bk/admin/inquiries.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 1-73
+src/bk/core.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 3-6,8-27,30-34
+  human 7
+src/bk/admin/state.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 1-7
+src/bk/admin/bookings.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 1-54
+src/bk/admin/login.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 1-45
+src/bk/admin/shell.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 1-61
+src/bk/admin/booking_form.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 1-144
+src/bk/admin/pnl.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 1-85
+src/bk/supabase.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 9-10,22-95,97-106,108-184
+  human 96,107
+src/bk/admin/overhead.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 1-85
+src/bk/admin/booking_detail.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 1-238
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 73,
+          "added_lines": 73,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-73",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/admin/inquiries.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 29,
+          "added_lines": 30,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "3-6,8-27,30-34",
+          "overridden_lines": 0
+        },
+        {
+          "accepted_lines": 1,
+          "added_lines": 1,
+          "deleted_lines": 0,
+          "hash": "human",
+          "lines": "7",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/core.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 7,
+          "added_lines": 7,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-7",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/admin/state.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 54,
+          "added_lines": 54,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-54",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/admin/bookings.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 45,
+          "added_lines": 45,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-45",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/admin/login.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 61,
+          "added_lines": 61,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-61",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/admin/shell.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 144,
+          "added_lines": 144,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-144",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/admin/booking_form.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 85,
+          "added_lines": 85,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-85",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/admin/pnl.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 163,
+          "added_lines": 165,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "9-10,22-95,97-106,108-184",
+          "overridden_lines": 0
+        },
+        {
+          "accepted_lines": 2,
+          "added_lines": 2,
+          "deleted_lines": 0,
+          "hash": "human",
+          "lines": "96,107",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/supabase.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 85,
+          "added_lines": 85,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-85",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/admin/overhead.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 238,
+          "added_lines": 238,
+          "deleted_lines": 2,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-238",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/admin/booking_detail.cljs"
+    }
+  ],
+  "base_commit_sha": "35cebf3e348ce8cf350c44513d8c161fb8293619",
+  "branch": "feature/admin-panel",
+  "commit_sha": "ecf2659cf0ea8bc84d72a9b0676c829671e8101d",
+  "commit_time": "2026-04-26T16:09:45+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 984,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 987,
+      "total_deletions": 2
+    },
+    "human": {
+      "accepted_lines": 3,
+      "agent_id": null,
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 3,
+      "total_deletions": 0
+    }
+  },
+  "repo": "git@github.com:Harsha-Kiran-Boyapati/bk-hall.git",
+  "schema_version": "authorship/3.0.0"
+}
