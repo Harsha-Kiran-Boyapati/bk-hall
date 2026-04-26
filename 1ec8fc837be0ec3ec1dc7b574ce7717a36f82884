@@ -1,0 +1,41 @@
+src/bk/public/calendar.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 40
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 1,
+          "added_lines": 1,
+          "deleted_lines": 1,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "40",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/public/calendar.cljs"
+    }
+  ],
+  "base_commit_sha": "815125de6e505c01e913cc8cf445b0f4fe437681",
+  "branch": "feature/public-website",
+  "commit_sha": "1ec8fc837be0ec3ec1dc7b574ce7717a36f82884",
+  "commit_time": "2026-04-26T14:17:31+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 1,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 1,
+      "total_deletions": 1
+    }
+  },
+  "schema_version": "authorship/3.0.0"
+}
