@@ -1,0 +1,125 @@
+package.json
+  b802fdfa-2943-4d95-9317-4c556179c098 1-12
+public/index.html
+  b802fdfa-2943-4d95-9317-4c556179c098 1-20
+src/bk/public/page.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 1-4
+src/bk/core.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 1-6
+shadow-cljs.edn
+  b802fdfa-2943-4d95-9317-4c556179c098 1-10
+package-lock.json
+  human 1-1770
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 12,
+          "added_lines": 12,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-12",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "package.json"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 20,
+          "added_lines": 20,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-20",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "public/index.html"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 4,
+          "added_lines": 4,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-4",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/public/page.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 6,
+          "added_lines": 6,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-6",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/core.cljs"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 10,
+          "added_lines": 10,
+          "deleted_lines": 0,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "1-10",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "shadow-cljs.edn"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 1770,
+          "added_lines": 1770,
+          "deleted_lines": 0,
+          "hash": "human",
+          "lines": "1-1770",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "package-lock.json"
+    }
+  ],
+  "base_commit_sha": "8f3eaacd0ef833a50a091454ae655d4f23c2f4d0",
+  "branch": "feature/public-website",
+  "commit_sha": "1c0ed5684f47c91c28f36f5b990ebd9bb5480da8",
+  "commit_time": "2026-04-26T13:18:19+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 52,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 52,
+      "total_deletions": 0
+    },
+    "human": {
+      "accepted_lines": 1770,
+      "agent_id": null,
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 1770,
+      "total_deletions": 0
+    }
+  },
+  "schema_version": "authorship/3.0.0"
+}
