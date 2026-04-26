@@ -9,6 +9,12 @@
             [bk.public.location :as location]
             [bk.public.inquiry :as inquiry]))
 
+(defn footer []
+  [:footer {:style {:background "var(--dark)" :color "rgba(255,255,255,0.6)"
+                    :text-align "center" :padding "32px 24px" :font-size "14px"}}
+   [:p {:style {:margin-bottom "8px" :font-weight "600" :color "#fff"}} "BK Function Hall"]
+   [:p "© 2026 BK Function Hall. All rights reserved."]])
+
 (defn root []
   [:div
    [hero/section]
@@ -19,4 +25,5 @@
    [reviews/section]
    [faq/section]
    [location/section]
-   [inquiry/section]])
+   [inquiry/section]
+   [footer]])
