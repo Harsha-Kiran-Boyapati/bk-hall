@@ -4,7 +4,8 @@
             [bk.public.amenities :as amenities]
             [bk.public.pricing :as pricing]
             [bk.public.calendar :as calendar]
-            [bk.public.reviews :as reviews]))
+            [bk.public.reviews :as reviews]
+            [bk.public.faq :as faq]))
 
 (defn root []
   [:div
@@ -13,4 +14,5 @@
    [amenities/section]
    [pricing/section]
    [calendar/section]
-   [reviews/section]])
+   [reviews/section]
+   [faq/section]])
