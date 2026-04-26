@@ -1,0 +1,42 @@
+src/bk/admin/bookings.cljs
+  b802fdfa-2943-4d95-9317-4c556179c098 50
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 1,
+          "added_lines": 1,
+          "deleted_lines": 1,
+          "hash": "b802fdfa-2943-4d95-9317-4c556179c098",
+          "lines": "50",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "src/bk/admin/bookings.cljs"
+    }
+  ],
+  "base_commit_sha": "8481aa32eb78ccd9e122224a1e86fc6449611d99",
+  "branch": "main",
+  "commit_sha": "a0eafefb9eb1f0688a6c40fefd55108e7e012817",
+  "commit_time": "2026-04-26T19:21:24+05:30",
+  "git_ai_version": "1.2.6",
+  "prompts": {
+    "b802fdfa-2943-4d95-9317-4c556179c098": {
+      "accepted_lines": 1,
+      "agent_id": {
+        "id": "b802fdfa-2943-4d95-9317-4c556179c098",
+        "model": "claude-sonnet-4-6",
+        "tool": "claude"
+      },
+      "human_author": "Harsha <harsha.boyapati@harness.io>",
+      "messages": [],
+      "overriden_lines": 0,
+      "total_additions": 1,
+      "total_deletions": 1
+    }
+  },
+  "repo": "git@github.com:Harsha-Kiran-Boyapati/bk-hall.git",
+  "schema_version": "authorship/3.0.0"
+}
