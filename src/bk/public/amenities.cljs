@@ -4,7 +4,7 @@
   [{:icon "🚗" :title "Ample Parking" :desc "Spacious parking for all your guests"}
    {:icon "🍽️" :title "Catering Kitchen" :desc "Fully equipped kitchen for your caterers"}
    {:icon "🌸" :title "Decoration" :desc "Professional decoration services available"}
-   {:icon "👥" :title "Large Capacity" :desc "Comfortably accommodates up to 500 guests"}])
+   {:icon "👥" :title "Large Capacity" :desc "Comfortably accommodates up to 1000 guests"}])
 
 (defn section []
   [:section#amenities {:style {:background "var(--cream)"}}

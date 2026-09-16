@@ -3,7 +3,7 @@
 
 (def faqs
   [{:q "What is the maximum capacity?"
-    :a "BK Function Hall can comfortably accommodate up to 500 guests."}
+    :a "BK Function Hall can comfortably accommodate up to 1000 guests."}
    {:q "Is outside catering allowed?"
     :a "Yes, you are welcome to bring your own caterers. Our fully equipped kitchen is available for their use."}
    {:q "How much advance is required to confirm a booking?"
