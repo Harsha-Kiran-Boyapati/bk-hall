@@ -22,7 +22,7 @@
                  :max-width "500px"
                  :margin-left "auto"
                  :margin-right "auto"}}
-     "The perfect venue for weddings, receptions & celebrations in your city"]
+     "The perfect venue for weddings, receptions & celebrations in Bathalapalli"]
     [:div {:style {:display "flex" :gap "16px" :justify-content "center" :flex-wrap "wrap"}}
      [:a {:href "#calendar" :class "btn-outline"} "Check Availability"]
      [:a {:href "#inquiry" :class "btn-primary"} "Make an Inquiry"]]]])

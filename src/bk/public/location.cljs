@@ -11,9 +11,9 @@
      [:div
       [:p {:style {:font-size "1rem" :color "var(--text)" :line-height "1.8" :margin-bottom "24px"}}
        "BK Function Hall" [:br]
-       "Address line 1" [:br]
-       "City, State — PIN" [:br]
-       [:span {:style {:color "var(--text-light)" :font-size "0.9rem"}} "Near: landmark"]]
+       "Tadipatri - Dharmavaram Rd" [:br]
+       "Bathalapalli, Andhra Pradesh 515661" [:br]
+       [:span {:style {:color "var(--text-light)" :font-size "0.9rem"}} "Near: Indraamma Colony"]]
       [:a {:href directions-url
            :target "_blank"
            :rel "noopener noreferrer"
