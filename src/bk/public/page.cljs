@@ -11,6 +11,11 @@
 (defn root []
   [:div {:style {:min-height "100vh" :display "flex" :flex-direction "column"
                  :background "var(--dark)"}}
+   [:header {:style {:background "var(--dark)" :color "#fff" :text-align "center"
+                     :padding "48px 24px 0"}}
+    [:h1 {:style {:font-size "clamp(2rem, 5vw, 3.5rem)" :font-weight "800"
+                  :letter-spacing "-1px"}}
+     "BK Function Hall"]]
    [:div {:style {:flex "1"}}
     [inquiry/section]
     [location/section]]
