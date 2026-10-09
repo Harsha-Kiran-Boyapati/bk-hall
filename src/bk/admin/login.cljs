@@ -42,4 +42,9 @@
                                       (db/fetch-role #(reset! state/role %))
                                       (reset! state/screen :inquiries))
                                     (reset! error (:error result))))))}
-         (if @loading? "Signing in…" "Sign In")]]])))
+         (if @loading? "Signing in…" "Sign In")]
+        [:p {:style {:text-align "center" :color "var(--text-light)" :margin "16px 0"}} "or"]
+        [:button {:class "btn-outline"
+                  :style {:width "100%" :color "var(--dark)" :border-color "var(--dark)"}
+                  :on-click #(db/sign-in-google (fn [{:keys [error]}] (reset! error error)))}
+         "Sign in with Google"]]])))

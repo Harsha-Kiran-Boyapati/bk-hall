@@ -31,6 +31,14 @@
                   (callback {:ok true :session (.-session %)}))))
       (.catch #(callback {:ok false :error (.-message %)}))))
 
+(defn sign-in-google [callback]
+  (-> (.-auth client)
+      (.signInWithOAuth (clj->js {:provider "google"
+                                  :options {:redirectTo (str js/location.origin "/admin/")}}))
+      (.then #(when-let [err (.-error %)]
+                (callback {:ok false :error (.-message err)})))
+      (.catch #(callback {:ok false :error (.-message %)}))))
+
 (defn sign-out [callback]
   (-> (.-auth client)
       (.signOut)
