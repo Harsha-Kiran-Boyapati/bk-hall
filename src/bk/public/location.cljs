@@ -3,19 +3,19 @@
 (def directions-url "https://maps.app.goo.gl/quTKKkZQ2EFVrt1t7")
 
 (defn section []
-  [:section#location {:style {:background "var(--cream)"}}
+  [:section#location {:style {:background "var(--dark)" :color "#fff"}}
    [:div.container
-    [:h2.section-title "Find Us"]
-    [:p.section-subtitle "BK Function Hall — easy to reach, easy to find"]
+    [:h2.section-title {:style {:color "#fff"}} "Find Us"]
+    [:p.section-subtitle {:style {:color "rgba(255,255,255,0.7)"}} "BK Function Hall — easy to reach, easy to find"]
     [:div {:style {:display "grid" :grid-template-columns "1fr 1fr" :gap "40px" :align-items "center"}}
      [:div
-      [:p {:style {:font-size "1rem" :color "var(--text)" :line-height "1.8" :margin-bottom "24px"}}
+      [:p {:style {:font-size "1rem" :color "#fff" :line-height "1.8" :margin-bottom "24px"}}
        "BK Function Hall" [:br]
        "Tadipatri - Dharmavaram Rd" [:br]
        "Bathalapalli, Andhra Pradesh 515661" [:br]
-       [:span {:style {:color "var(--text-light)" :font-size "0.9rem"}} "Near: Indraamma Colony"]
+       [:span {:style {:color "rgba(255,255,255,0.7)" :font-size "0.9rem"}} "Near: Indraamma Colony"]
        [:br]
-       [:a {:href "tel:9908323309" :style {:color "var(--text)" :font-weight "600" :text-decoration "none"}}
+       [:a {:href "tel:9908323309" :style {:color "#fff" :font-weight "600" :text-decoration "none"}}
         "📞 9908323309"]]
       [:a {:href directions-url
            :target "_blank"
