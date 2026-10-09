@@ -1,13 +1,6 @@
 (ns bk.public.page
-  (:require [bk.public.hero :as hero]
-            [bk.public.gallery :as gallery]
-            [bk.public.amenities :as amenities]
-            [bk.public.pricing :as pricing]
-            [bk.public.calendar :as calendar]
-            [bk.public.reviews :as reviews]
-            [bk.public.faq :as faq]
-            [bk.public.location :as location]
-            [bk.public.inquiry :as inquiry]))
+  (:require [bk.public.inquiry :as inquiry]
+            [bk.public.location :as location]))
 
 (defn footer []
   [:footer {:style {:background "var(--dark)" :color "rgba(255,255,255,0.6)"
@@ -16,14 +9,9 @@
    [:p "© 2026 BK Function Hall. All rights reserved."]])
 
 (defn root []
-  [:div
-   [hero/section]
-   [gallery/section]
-   [amenities/section]
-   [pricing/section]
-   [calendar/section]
-   [reviews/section]
-   [faq/section]
-   [location/section]
-   [inquiry/section]
+  [:div {:style {:min-height "100vh" :display "flex" :flex-direction "column"
+                 :background "var(--dark)"}}
+   [:div {:style {:flex "1"}}
+    [inquiry/section]
+    [location/section]]
    [footer]])
