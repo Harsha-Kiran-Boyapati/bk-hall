@@ -46,5 +46,5 @@
         [:p {:style {:text-align "center" :color "var(--text-light)" :margin "16px 0"}} "or"]
         [:button {:class "btn-outline"
                   :style {:width "100%" :color "var(--dark)" :border-color "var(--dark)"}
-                  :on-click #(db/sign-in-google (fn [{:keys [error]}] (reset! error error)))}
+                  :on-click #(db/sign-in-google (fn [{err :error}] (reset! error err)))}
          "Sign in with Google"]]])))
