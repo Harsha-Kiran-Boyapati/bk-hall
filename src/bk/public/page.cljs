@@ -16,10 +16,7 @@
     [:h1 {:style {:font-size "clamp(2rem, 5vw, 3.5rem)" :font-weight "800"
                   :letter-spacing "-1px"}}
      "BK Function Hall"]
-    [:a {:href "tel:99038323309"
-         :style {:display "inline-block" :margin-top "12px" :color "var(--gold, #b8922a)"
-                 :font-size "1.2rem" :font-weight "600" :text-decoration "none"}}
-     "📞 99038323309"]]
+]
    [:div {:style {:flex "1"}}
     [inquiry/section]
     [location/section]]

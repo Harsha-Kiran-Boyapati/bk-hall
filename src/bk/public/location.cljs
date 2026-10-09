@@ -13,7 +13,10 @@
        "BK Function Hall" [:br]
        "Tadipatri - Dharmavaram Rd" [:br]
        "Bathalapalli, Andhra Pradesh 515661" [:br]
-       [:span {:style {:color "var(--text-light)" :font-size "0.9rem"}} "Near: Indraamma Colony"]]
+       [:span {:style {:color "var(--text-light)" :font-size "0.9rem"}} "Near: Indraamma Colony"]
+       [:br]
+       [:a {:href "tel:99038323309" :style {:color "var(--text)" :font-weight "600" :text-decoration "none"}}
+        "📞 99038323309"]]
       [:a {:href directions-url
            :target "_blank"
            :rel "noopener noreferrer"
